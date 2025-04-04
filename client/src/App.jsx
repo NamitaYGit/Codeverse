@@ -1,13 +1,11 @@
-
-import { Button } from '../../client/components/ui/button'
 import './App.css'
-
+import Login from './pages/Login'
 function App() {
- 
-
   return (
-   <Button>hello</Button>
-  
+    <main>
+      <Login/>
+    </main>
+   
   )
 }
 
