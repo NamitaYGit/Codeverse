@@ -5,6 +5,7 @@ export const  register=async (req, res) => {
    
     try {
         const { name, email, password } = req.body;
+        
         if(!name || !email || !password) {
             return res.status(400).json({
                 success: false,
@@ -14,6 +15,7 @@ export const  register=async (req, res) => {
         // Check if user already exists
         const user=await User.findOne({ email });
         if (user) {
+           
             return res.status(400).json({
                 success: false,
                 message: 'User already exists with this email',
@@ -23,7 +25,7 @@ export const  register=async (req, res) => {
           await User.create({ name, email, password:hashedPassword });
         
 
-        res.status(201).json({
+      return  res.status(201).json({
             success: true,
             message: 'Account registered successfully',
             
@@ -65,11 +67,11 @@ export const login=async (req, res) => {
         }
          generateToken(res,user,`Welcome back ${user.name}`);
 
-        res.status(200).json({
-            success: true,
-            message: 'Login successful',
-            user,
-        });
+        //res.status(200).json({
+         //   success: true,
+          //  message: 'Login successful',
+           // user,
+     //   });
     } catch (error) {
         console.error('Error logging in user:', error);
       return  res.status(500).json({
