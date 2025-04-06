@@ -1,17 +1,39 @@
+import "./App.css";
+import Login from "./pages/Login";
+import Navbar from "../components/Navbar";
+import HeroSection from "./pages/student/HeroSection";
+import { createBrowserRouter } from "react-router-dom";
+import MainLayout from "./layout/MainLayout";
+import { RouterProvider } from "react-router";
 
-import { Button } from '../../client/components/ui/button'
-
-import './App.css'
-
+const appRouter = createBrowserRouter([
+  {
+    path: "/",
+    element: <MainLayout />,
+    children: [
+      {
+        path: "/",
+        element: (
+          <>
+            {" "}
+            <HeroSection />
+            {/*Cousrse */}
+          </>
+        ),
+      },
+      {
+        path: "/login",
+        element: <Login />,
+      },
+    ],
+  },
+]);
 function App() {
- 
-
   return (
-    <Button>hello</Button>
-
-    
- 
-  )
+    <main>
+      <RouterProvider router={appRouter}/>
+    </main>
+  );
 }
 
-export default App
+export default App;
