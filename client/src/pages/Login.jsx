@@ -15,9 +15,10 @@ import {
   TabsList,
   TabsTrigger,
 } from "../../../client/components/ui/tabs";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLoginUserMutation, useRegisterUserMutation } from "../features/api/authApi";
 import { Loader2 } from "lucide-react";
+import { toast } from "sonner";
 const Login = () => {
   const [signupInput, setSignupInput] = useState({
     name: "",
@@ -40,9 +41,6 @@ const Login = () => {
     const inputData = type === "signup" ? signupInput : loginInput;
     const action = type === "signup" ? registerUser : loginUser;
     const { name, email, password } = inputData;
-
-
-
     await action(inputData)
     
       // try {
@@ -59,6 +57,29 @@ const Login = () => {
     };
     
     // console.log(inputData);
+    useEffect(()=>{
+      if(registerIsSuccess && registerData){
+        toast.success(registerData.message || "Signup successful.")
+      }
+      if(loginIsSuccess && loginData){
+        toast.success(loginData.message || "Login successful.")
+      }
+      if (registerError) {
+        toast.error(registerError?.data?.message || "Signup failed.")
+      }
+      
+      if (loginError) {
+        toast.error(loginError?.data?.message || "Login failed.")
+      }
+      
+    },[
+      loginIsLoading,
+      registerIsLoading,
+      loginData,
+      registerData,
+      loginError,
+      registerError
+    ]);
   
   return (
     <div className="flex items-center justify-center w-full mt-20">
