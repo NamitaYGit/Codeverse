@@ -38,10 +38,28 @@ const Login = () => {
 
   const handleRegistration = async (type) => {
     const inputData = type === "signup" ? signupInput : loginInput;
-  const action=type=="signup"? registerUser:loginUser;
-  await action(inputData);
-   // console.log(inputData);
-  };
+    const action = type === "signup" ? registerUser : loginUser;
+    const { name, email, password } = inputData;
+
+
+
+    await action(inputData)
+    
+      // try {
+      //   const res = await action(inputData).unwrap();
+      //   console.log("✅ Server Response:", res);
+    
+      //   // You can now do stuff like:
+      //   // navigate("/home") or setUser(res.user)
+    
+      // } catch (err) {
+      //   console.error("❌ Error during auth:", err);
+      //   // Optional: show toast or set error state here
+      // }
+    };
+    
+    // console.log(inputData);
+  
   return (
     <div className="flex items-center justify-center w-full mt-20">
       <Tabs defaultValue="account" className="w-[400px]">
@@ -94,10 +112,10 @@ const Login = () => {
               <Button disabled={registerIsLoading} onClick={() => handleRegistration("signup")}>{
                 registerIsLoading ? (
                   <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin"/>Please Wait
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />Please Wait
                   </>
-                ):"Signup"
-            }</Button>
+                ) : "Signup"
+              }</Button>
             </CardFooter>
           </Card>
         </TabsContent>
@@ -134,11 +152,11 @@ const Login = () => {
             <CardFooter>
               <Button disabled={loginIsLoading} onClick={() => handleRegistration("login")}>
                 {
-                  loginIsLoading ?(
+                  loginIsLoading ? (
                     <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin"/>Please Wait
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />Please Wait
                     </>
-                  ):"Login"
+                  ) : "Login"
                 }
               </Button>
             </CardFooter>
