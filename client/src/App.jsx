@@ -6,7 +6,7 @@ import { createBrowserRouter } from "react-router-dom";
 import MainLayout from "./layout/MainLayout";
 import { RouterProvider } from "react-router";
 import Courses from "./pages/student/Courses";
-
+import { GoogleOAuthProvider } from "@react-oauth/google";
 const appRouter = createBrowserRouter([
   {
     path: "/",
@@ -18,7 +18,7 @@ const appRouter = createBrowserRouter([
           <>
             {" "}
             <HeroSection />
-            <Courses/>
+            <Courses />
           </>
         ),
       },
@@ -30,10 +30,13 @@ const appRouter = createBrowserRouter([
   },
 ]);
 function App() {
+  const clientId=import.meta.env.VITE_GOOGLE_CLIENT_ID;
   return (
-    <main>
-      <RouterProvider router={appRouter}/>
-    </main>
+    <GoogleOAuthProvider clientId={clientId}>
+      <main>
+        <RouterProvider router={appRouter} />
+      </main>
+    </GoogleOAuthProvider>
   );
 }
 

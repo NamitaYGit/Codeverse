@@ -13,8 +13,15 @@ const userSchema = new mongoose.Schema({
     },
     password: {
         type: String,
-        required: true,
-    },
+        required: function () {
+          return this.provider !== "google";
+        },
+      },
+      provider: {
+        type: String,
+        enum: ["local", "google"],
+        default: "local",
+      },      
     role:{
         type: String,
         enum: ['instructor', 'student'],

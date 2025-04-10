@@ -81,3 +81,37 @@ export const login=async (req, res) => {
         });
     }
 }
+export const googleLogin = async (req, res) => {
+    const { name, email, photoUrl } = req.body;
+    console.log(email,name,photoUrl);
+    if (!email || !name) {
+      return res.status(400).json({
+        success: false,
+        message: "Missing Google account data",
+      });
+    }
+  
+    try {
+      let user = await User.findOne({ email });
+  
+      if (!user) {
+        user = await User.create({
+          name,
+          email,
+          provider: "google",
+          photoUrl,
+        });
+      }
+  
+      generateToken(res, user, `Welcome ${user.name} (signed in with google)`);
+  
+    } catch (error) {
+      console.error("Google login error:", error);
+      return res.status(500).json({
+        success: false,
+        message: "Server error during Google login",
+        error: error.message,
+      });
+    }
+  };
+  
