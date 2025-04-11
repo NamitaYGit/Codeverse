@@ -141,7 +141,12 @@ export const updateProfile=async (req,res)=>
                     success:false
                 })
                }
-               const updateData={name,photoUrl}
+
+               //extract public id of the old image from the url if it exists
+               if(user.photoUrl)
+               {
+                const publicid=user.photoUrl.split("/").pop().split(".")[0];//extract public id               }
+               const updatedData={name,photoUrl}
     }catch(error)
     {
         console.log(error);
