@@ -1,8 +1,13 @@
-import express from "express";
-import { register,login,googleLogin } from "../controllers/user.controller.js";
 
-const router =express.Router();
-router.route("/register").post(register);
-router.route("/login").post(login);
-router.route("/google-login").post(googleLogin); 
-export  default  router;
+import express from 'express';
+import { register, login, googleLogin, githubLogin, githubCallback } from '../controllers/user.controller.js';
+
+const router = express.Router();
+
+router.post('/register', register);
+router.post('/login', login);
+router.post('/google-login', googleLogin);
+router.post('/github-login', githubLogin);
+router.get('/github-callback', githubCallback);
+
+export default router;

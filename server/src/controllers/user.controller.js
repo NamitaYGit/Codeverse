@@ -1,6 +1,8 @@
+import axios from 'axios';
 import {User} from '../models/user.model.js';
 import bcrypt from 'bcryptjs';
 import { generateToken } from '../utils/generateToken.js';
+
 export const  register=async (req, res) => {
    
     try {
@@ -83,7 +85,7 @@ export const login=async (req, res) => {
 }
 export const googleLogin = async (req, res) => {
     const { name, email, photoUrl } = req.body;
-    console.log(email,name,photoUrl);
+    // console.log(email,name,photoUrl);
     if (!email || !name) {
       return res.status(400).json({
         success: false,
@@ -115,3 +117,90 @@ export const googleLogin = async (req, res) => {
     }
   };
   
+  export const githubLogin = async (req, res) => {
+    const { code } = req.body;
+    
+    if (!code) {
+      return res.status(400).json({
+        success: false,
+        message: "Missing GitHub authorization code",
+      });
+    }
+  
+    try {
+      const tokenResponse = await axios.post(
+        'https://github.com/login/oauth/access_token',
+        {
+          client_id: process.env.GITHUB_CLIENT_ID,
+          client_secret: process.env.GITHUB_CLIENT_SECRET,
+          code,
+        },
+        {
+          headers: {
+            Accept: 'application/json',
+          },
+        }
+      );
+  
+      const accessToken =await tokenResponse.data.access_token;
+      // console.log("access token: ",accessToken);
+      if (!accessToken) {
+        return res.status(400).json({
+          success: false,
+          message: "Failed to obtain access token from GitHub",
+        });
+      }
+      const userResponse = await axios.get('https://api.github.com/user', {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+  
+      const githubUser = userResponse.data;
+      let userEmail;
+      try {
+        const emailsResponse = await axios.get('https://api.github.com/user/emails', {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+        
+        const primaryEmail = emailsResponse.data.find(email => email.primary);
+        userEmail = primaryEmail ? primaryEmail.email : emailsResponse.data[0].email;
+      } catch (error) {
+        userEmail = `${githubUser.login}@github.user`;
+      }
+      let user = await User.findOne({ email: userEmail });
+  
+      if (!user) {
+        user = await User.create({
+          name: githubUser.name || githubUser.login,
+          email: userEmail,
+          provider: "github",
+          photoUrl: githubUser.avatar_url,
+        });
+      } else {
+        if (user.provider !== "github") {
+          user.provider = "github";
+          user.photoUrl = githubUser.avatar_url || user.photoUrl;
+          await user.save();
+        }
+      }
+     const result= generateToken(res, user, `Welcome ${user.name} (signed in with GitHub)`);
+  
+    } catch (error) {
+      return res.status(500).json({
+        success: false,
+        message: "Server error during GitHub login",
+        error: error.message,
+      });
+    }
+  };
+  
+  export const githubCallback = async (req, res) => {
+    const { code } = req.query;
+    if (!code) {
+      return res.redirect('/login?error=no_code');
+    }
+    res.redirect(`/github-callback?code=${code}`);
+  };

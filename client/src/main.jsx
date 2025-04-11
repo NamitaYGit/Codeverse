@@ -6,10 +6,10 @@ import { Provider } from 'react-redux';
 import { appStore } from './app/store.js';
 import { Toaster } from '/components/ui/sonner';
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
+  //<StrictMode>
     <Provider store={appStore}>
       <App />
       <Toaster/>
     </Provider>
-  </StrictMode>,
+  //</StrictMode>,
 );
