@@ -1,6 +1,6 @@
 import "./App.css";
 import Login from "./pages/Login";
-import Navbar from "../components/Navbar";
+
 import HeroSection from "./pages/student/HeroSection";
 import { createBrowserRouter } from "react-router-dom";
 import MainLayout from "./layout/MainLayout";
@@ -9,6 +9,8 @@ import Courses from "./pages/student/Courses";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { useEffect } from "react";
 import { toast } from "sonner";
+import MyLearning from "./pages/student/MyLearning";
+import Profile from "./pages/student/Profile";
 const appRouter = createBrowserRouter([
   {
     path: "/",
@@ -29,7 +31,13 @@ const appRouter = createBrowserRouter([
       },
       {
         path: "/github-callback",
-        element: <GitHubCallback />,
+        element: <GitHubCallback />},
+       { path: "my-learning",
+        element: <MyLearning/>,
+      },
+      {
+        path: "profile",
+        element: <Profile/>,
       },
     ],
   },
