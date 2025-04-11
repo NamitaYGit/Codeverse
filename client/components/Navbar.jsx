@@ -1,6 +1,6 @@
 import { Menu, School } from "lucide-react";
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect  } from "react";
+import { Link ,useNavigate} from "react-router-dom";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -19,9 +19,22 @@ import { Sheet, SheetClose, SheetContent, SheetDescription, SheetFooter, SheetHe
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import { Separator } from "@radix-ui/react-dropdown-menu";
+import { useLogoutUserMutation } from "../src/features/api/authApi";
+import { toast } from "sonner";
 
 const Navbar = () => {
   const user = true;
+  const [logoutUser,{data,isSuccess}]=useLogoutUserMutation();
+  const navigate= useNavigate();
+  useEffect(()=>{
+    if(isSuccess){
+      toast.success(data?.message || "Logout Successfully");
+      navigate("/login");
+    }
+  },[isSuccess])
+  const logoutHandler=async()=>{
+    await logoutUser();
+  }
   return (
     <div className="h-16 dark:bg-[#0A0A0A] bg-white border-b dark:border-b-gray-800 border-b-gray-200 fixed top-0 left-0 right-0 duration-300 z-10">
       {/*Desktop*/}
@@ -51,7 +64,7 @@ const Navbar = () => {
                   <DropdownMenuItem><Link to="profile">Edit Profile</Link></DropdownMenuItem>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>Log out</DropdownMenuItem>
+                <DropdownMenuItem onClick={logoutHandler}>Log out</DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>Dashboard</DropdownMenuItem>
               </DropdownMenuContent>
