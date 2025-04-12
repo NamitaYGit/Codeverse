@@ -55,7 +55,7 @@ const Profile = () => {
             <div className='flex flex-col md:flex-row items-center md:items-start gap-8 my-5 '>
                 <div className="flex flex-col items-center">
                     <Avatar className='h-24 w-24 md:h-32 md:w-32 mb-4'>
-                        <AvatarImage src={user.photoUrl || "https://github.com/shadcn.png"} alt="@shadcn" />
+                        <AvatarImage src={user?.photoUrl || "https://github.com/shadcn.png"} alt="@shadcn" />
                         <AvatarFallback>CN</AvatarFallback>
                     </Avatar>
                 </div>

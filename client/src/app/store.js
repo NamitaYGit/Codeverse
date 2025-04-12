@@ -11,3 +11,8 @@ export const appStore = configureStore({
         defaultMiddleware().concat(authApi.middleware)
 });
 setupListeners(appStore.dispatch);
+const initializeApp =async ()=>
+{
+    await appStore.dispatch(authApi.endpoints.loadUser.initiate({},{forceRefetch:true}))
+}
+initializeApp();
