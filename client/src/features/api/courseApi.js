@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-const COURSE_API="http://localhost:8000/api/v1/course/create";
+const COURSE_API="http://localhost:8000/api/v1/course";
 
 export const courseApi=createApi({
     reducerPath:"courseApi",
@@ -14,7 +14,13 @@ export const courseApi=createApi({
                  method:"POST",
                  body:{courseTitle,category},
              })
-        })
+        }),
+        getCreatorCourse:builder.query({
+            query:({courseTitle,category})=>({
+                url:"",
+                method:"GET",
+            })
+       })
      })
 })
-export const {useCreateCourseMutation} =courseApi;
+export const {useCreateCourseMutation,useGetCreatorCourseQuery} =courseApi;
