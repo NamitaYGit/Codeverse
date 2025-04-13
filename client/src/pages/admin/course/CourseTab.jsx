@@ -7,7 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from "../../../../components/ui/card";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Input } from "../../../../components/ui/input";
 import RichTextEditor from "../../../../components/RichTextEditor";
 import {
@@ -21,6 +21,7 @@ import {
 } from "../../../../components/ui/select";
 import { Loader2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import EditCourse from "./EditCourse";
 
 const CourseTab = () => {
   const [input, setInput] = useState({
@@ -38,19 +39,42 @@ const CourseTab = () => {
   };
   const isPublished = true;
   const isLoading = false;
-  const selectCategory=(value)=>{
+  const selectCategory = (value) => {
     setInput({ ...input, category: value });
-  }
-  const selectCourseLevel=(value)=>{
+  };
+  const selectCourseLevel = (value) => {
     setInput({ ...input, courseLevel: value });
-  }
-  const selectThumbnail=(e)=>{
-    const file=e.target.files?.[0];
-    if(file) {
-      setInput({ ...input,courseThumbnnail: file });
+  };
+  const [previewThumbnail, setPreviewThumbnail] = useState("");
+  const selectThumbnail = (e) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setInput({ ...input, courseThumbnnail: file });
+      const fileReader = new FileReader();
+      fileReader.onloadend = () => setPreviewThumbnail(fileReader.result);
+      fileReader.readAsDataURL(file);
     }
-  }
-  const navigate=useNavigate();
+  };
+  const updateCourseHandler = async () => {
+    const formData = new FormData();
+    formData.append("courseTitle", input.courseTitle);
+    formData.append("subTitle", input.subTitle);
+    formData.append("description", input.description);
+    formData.append("category", input.category);
+    formData.append("courseLevel", input.courseLevel);
+    formData.append("coursePrice", input.coursePrice);
+    formData.append("courseThumbnail", input.courseThumbnail);
+    await EditCourse(formData);
+  };
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success(data.message || "Course updated.");
+    }
+    if (error) {
+      toast.error(error.data.message || "Failed to update course.");
+    }
+  }, [isSuccess, error]);
+  const navigate = useNavigate();
   return (
     <>
       <Card>
@@ -151,22 +175,38 @@ const CourseTab = () => {
             </div>
             <div>
               <Label>Course Thumbnail</Label>
-              <Input type="file" accept="image/*" className="w-fit" />
+              <Input
+                type="file"
+                onChange={selectThumbnail}
+                accept="image/*"
+                className="w-fit"
+              />
+              {previewThumbnail && (
+                <img
+                  src={previewThumbnail}
+                  className="e-64 my-2"
+                  alt="Course Thumbnail"
+                />
+              )}
             </div>
             <div className="flex flex-row gap-2">
-            <Button onClick={()=>navigate("/admin/course")} variant="outline">Cancel</Button>
-            <Button disabled={isLoading}>
-              {isLoading ? (
-                <>
-                  <Loader2 className="mr-2 h-4 animate-spin" />
-                  Please wait
-                </>
-              ) : (
-                "Save"
-              )}
-            </Button>
+              <Button
+                onClick={() => navigate("/admin/course")}
+                variant="outline"
+              >
+                Cancel
+              </Button>
+              <Button onClick={updateCourseHandler} disabled={isLoading}>
+                {isLoading ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 animate-spin" />
+                    Please wait
+                  </>
+                ) : (
+                  "Save"
+                )}
+              </Button>
             </div>
-            
           </div>
         </CardContent>
       </Card>
