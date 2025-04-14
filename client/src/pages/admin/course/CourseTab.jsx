@@ -22,7 +22,7 @@ import {
 import { Loader2 } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 import EditCourse from "./EditCourse";
-import { useEditCourseMutation } from "@/src/features/api/courseApi";
+import { useEditCourseMutation } from "../../../../src/features/api/courseApi";
 import { toast } from "sonner";
 
 const CourseTab = () => {
@@ -58,7 +58,7 @@ const CourseTab = () => {
   };
   const params=useParams();
   const courseId=params.courseId;
-  const [EditCourse,{data,isLoading,isSuccess,error}]=useEditCourseMutation();
+  const [editCourse,{data,isLoading,isSuccess,error}]=useEditCourseMutation();
   const updateCourseHandler = async () => {
     const formData = new FormData();
     formData.append("courseTitle", input.courseTitle);
@@ -67,9 +67,14 @@ const CourseTab = () => {
     formData.append("category", input.category);
     formData.append("courseLevel", input.courseLevel);
     formData.append("coursePrice", input.coursePrice);
-    formData.append("courseThumbnail", input.courseThumbnail);
-    await editCourse(formData,courseId);
+  
+    if (input.courseThumbnnail) {
+      formData.append("courseThumbnail", input.courseThumbnnail);
+    }
+  
+    await editCourse({ formData, courseId });
   };
+  
   useEffect(() => {
     if (isSuccess) {
       toast.success(data.message || "Course updated.");

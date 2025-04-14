@@ -1,5 +1,5 @@
 import express from "express";
-import { createCourse, getCreatorCourses } from "../controllers/course.controller.js";
+import { createCourse, editCourse, getCreatorCourses } from "../controllers/course.controller.js";
 import isAuthenticated from "../middlewares/isAuthenticated.js";
 import upload from "../utils/multer.js";
 const router = express.Router();

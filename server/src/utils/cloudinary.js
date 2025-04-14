@@ -6,9 +6,6 @@ cloudinary.config({
     api_key: process.env.API_KEY,
     api_secret: process.env.API_SECRET,
     cloud_name: process.env.CLOUD_NAME,
-
-
-
 });
 export const uploadMedia = async (file) => {
     try {
@@ -32,7 +29,7 @@ export const deleteMediaFromCloudinary = async (publicId) => {
     }
 };
 
-export default deleteVideofromCloudinary = async (publicId) => {
+export const deleteVideofromCloudinary = async (publicId) => {
     try {
         await cloudinary.uploader.destroy(publicId, { resource_type: "video" });
         console.log("Video deleted successfully from cloudinary")
