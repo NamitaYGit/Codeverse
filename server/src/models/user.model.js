@@ -4,18 +4,23 @@ const userSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true
-     
     },
     email: {
         type: String,
         required: true,
-      
     },
     password: {
         type: String,
-        required: true,
+        required: function () {
+          return this.provider === "local";
+        },
     },
-    role:{
+    provider: {
+        type: String,
+        enum: ["local", "google", "github"],
+        default: "local",
+    },      
+    role: {
         type: String,
         enum: ['instructor', 'student'],
         default: 'student',
@@ -26,13 +31,10 @@ const userSchema = new mongoose.Schema({
             ref: 'Course',
         }
     ],
-    photoUrl:{
+    photoUrl: {
         type: String,
         default: '',
     }
+}, {timestamps: true});
 
-  
-
-   
-},{timestamps:true}); 
 export const User = mongoose.model('User', userSchema);

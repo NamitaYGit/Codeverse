@@ -19,10 +19,10 @@ const CustomWrapper = () => {
 };
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
+  //<StrictMode>
     <Provider store={appStore}>
     <CustomWrapper />
      
     </Provider>
-  </StrictMode>,
+  //</StrictMode>,
 );
