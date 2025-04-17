@@ -12,4 +12,7 @@ export default defineConfig({
       "@lib": path.resolve(__dirname, "../client/lib"), 
     },
   },
+    optimizeDeps: {
+      include: ['react-quill'],
+    },
 })
