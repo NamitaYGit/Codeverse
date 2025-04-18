@@ -1,7 +1,13 @@
+import {User} from '../models/user.model.js';
+import bcrypt from 'bcryptjs';
+import { generateToken } from '../utils/generateToken.js';
+
+
+
+   
 import axios from "axios";
-import { User } from "../models/user.model.js";
-import bcrypt from "bcryptjs";
-import { generateToken } from "../utils/generateToken.js";
+
+import { deleteMediaFromCloudinary, uploadMedia } from '../utils/cloudinary.js';
 
 export const register = async (req, res) => {
   try {
@@ -200,6 +206,20 @@ export const githubLogin = async (req, res) => {
   }
 };
 
+export const logout=async (req,res)=>
+{
+    try{
+  return res.status(200).cookie("token","",{maxAge:0}).json({
+    message:"Logged out Successfully!",
+    success:true
+  });
+    } catch(error)
+    {
+        console.log(error);
+        return res.status(500).json({
+            success:false,
+            message:"Failed to Logout"
+        })}};
 export const githubCallback = async (req, res) => {
   const { code } = req.query;
   if (!code) {
@@ -208,20 +228,7 @@ export const githubCallback = async (req, res) => {
   res.redirect(`/github-callback?code=${code}`);
 };
 
-export const logout = async (_, req) => {
-  try {
-    return res.status(200).cookie("token", "", { maxAge: 0 }).json({
-      message: "Logged out Successfully!",
-      success: true,
-    });
-  } catch (error) {
-    console.log(error);
-    return res.status(500).json({
-      success: false,
-      message: "Failed to Logout",
-    });
-  }
-};
+
 
 export const getUserProfile = async (req, res) => {
   try {
@@ -247,29 +254,45 @@ export const getUserProfile = async (req, res) => {
   }
 };
 
-export const updateProfile = async (req, res) => {
-  try {
-    const userId = req.id;
-    const { name } = req.body;
-    const profilePhoto = req.file;
-    const user = await User.findById(userId);
-    if (!user) {
-      return res.status(404).json({
-        message: "User not found",
-        success: false,
-      });
-    }
 
-    //extract public id of the old image from the url if it exists
-    if (user.photoUrl) {
-      const publicid = user.photoUrl.split("/").pop().split(".")[0]; //extract public id               }
-      const updatedData = { name, photoUrl };
+
+export const updateProfile=async (req,res)=>
+{
+    try{
+        const userId =req.id;
+        const  {name}=req.body;
+        const profilePhoto=req.file;
+        const user =await User.findById(userId);
+        if(!user)
+            {
+                return res.status(404).json({
+                    message:"User not found",
+                    success:false
+                })
+               }
+
+               //extract public id of the old image from the url if it exists
+               if(user.photoUrl)
+               {
+                const publicId=user.photoUrl.split("/").pop().split(".")[0];//extract public id     
+                deleteMediaFromCloudinary(publicId) ;         }
+                const cloudResponse=await uploadMedia(profilePhoto.path);
+                const { secure_url:photoUrl}=cloudResponse;
+               const updatedData={name,photoUrl};
+               const updatedUser=await User.findByIdAndUpdate(userId,updatedData,{new:true}).select("-password");
+               return res.status(200).json({
+                success:true,
+                user:updatedUser,
+                message:"Profile updated successfully"
+               })
     }
-  } catch (error) {
-    console.log(error);
-    return res.status(500).json({
-      success: false,
-      message: "Failed to update profile",
-    });
-  }
+    catch(error)
+    {
+        console.log(error);
+        return res.status(500).json({
+            success:false,
+            message:"Failed to update profile"
+        })
+    }
+  
 };

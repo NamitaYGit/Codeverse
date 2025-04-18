@@ -11,6 +11,7 @@ import { useEffect } from "react";
 import { toast } from "sonner";
 import MyLearning from "./pages/student/MyLearning";
 import Profile from "./pages/student/Profile";
+
 import Sidebar from "./pages/admin/Sidebar";
 import CourseTable from "./pages/admin/course/CourseTable";
 import Dashboard from "./pages/admin/Dashboard";
@@ -107,6 +108,7 @@ function GitHubCallback() {
   };
 
   return (
+    
     <div className="flex items-center justify-center h-screen">
       <div className="text-center">
         <h2 className="text-2xl font-bold mb-2">Processing GitHub Login</h2>

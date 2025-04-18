@@ -91,6 +91,8 @@ const Login = () => {
       } else {
         toast.error(data.message || "Google login failed");
       }
+      
+  
     } catch (error) {
       console.error("Google login error:", error);
       toast.error("Something went wrong with Google login");
@@ -140,7 +142,7 @@ const Login = () => {
 
   return (
     <div className="flex items-center justify-center w-full mt-20">
-      <Tabs defaultValue="account" className="w-[400px]">
+      <Tabs defaultValue="login" className="w-[400px]">
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="signup">Signup</TabsTrigger>
           <TabsTrigger value="login">Login</TabsTrigger>
