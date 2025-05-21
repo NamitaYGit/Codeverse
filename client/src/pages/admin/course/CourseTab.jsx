@@ -22,7 +22,7 @@ import {
 import { Loader2 } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 import EditCourse from "./EditCourse";
-import { useEditCourseMutation } from "@/src/features/api/courseApi";
+import { useEditCourseMutation } from "../../../../src/features/api/courseApi";
 import { toast } from "sonner";
 
 const CourseTab = () => {
