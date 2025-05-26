@@ -1,0 +1,11 @@
+import express from "express";
+import isAuthenticated from "../middlewares/isAuthenticated.js";
+import {createCheckoutSession } from "../controllers/coursePurchase.controller";
+const router =express.Router();
+router.route("/checkout/create_checkout_session").post(isAuthenticated,createCheckoutSession);
+router.route("/webhook").post(express.raw({type:"application/json"}),stripeWebhook);
+router.route("course/:courseId/detail-with-status").get();
+
+router.route("/").get();
+export default router;
+

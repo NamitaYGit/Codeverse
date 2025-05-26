@@ -5,6 +5,7 @@ import cors from "cors";
 import connectDB from "./db/db_connect.js";
 import userRoute from "./routes/user.route.js";
 import courseRoute from "./routes/course.route.js";
+import purchaseRoute from "./routes/purchaseCourse.route.js"
 dotenv.config({});
 connectDB();
  const app=express();
@@ -20,6 +21,7 @@ connectDB();
 
  app.use("/api/v1/user",userRoute);
  app.use("/api/v1/course",courseRoute);
+ app.use("/api/v1/purchase",purchaseRoute);
 
  app.listen(PORT,()=>{
     console.log(`Server is running on port ${PORT}`);

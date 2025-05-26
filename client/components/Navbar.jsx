@@ -15,7 +15,16 @@ import {
 import { Button } from "./ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import DarkMode from "../DarkMode";
-import { Sheet, SheetClose, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet";
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "./ui/sheet";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import { Separator } from "@radix-ui/react-dropdown-menu";
@@ -24,7 +33,7 @@ import { toast } from "sonner";
 import { useSelector } from "react-redux";
 
 const Navbar = () => {
-  const { user } = useSelector(store => store.auth);
+  const { user } = useSelector((store) => store.auth);
   const [logoutUser, { data, isSuccess }] = useLogoutUserMutation();
   const navigate = useNavigate();
   useEffect(() => {
@@ -32,10 +41,10 @@ const Navbar = () => {
       toast.success(data?.message || "Logout Successfully");
       navigate("/login");
     }
-  }, [isSuccess])
+  }, [isSuccess]);
   const logoutHandler = async () => {
     await logoutUser();
-  }
+  };
   console.log(user);
 
   return (
@@ -51,37 +60,46 @@ const Navbar = () => {
           {user ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Avatar>
-                  <AvatarImage
-                    src={user?.photoUrl || "https://github.com/shadcn.png"}
-                    alt="@shadcn"
-                  />
-                  <AvatarFallback>CN</AvatarFallback>
-                </Avatar>
+                <Button variant="ghost" className="p-0 h-auto rounded-full">
+                  <Avatar>
+                    <AvatarImage
+                      src={user?.photoUrl || "https://github.com/shadcn.png"}
+                      alt="@shadcn"
+                    />
+                    <AvatarFallback>CN</AvatarFallback>
+                  </Avatar>
+                </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-56">
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
-                  <DropdownMenuItem><Link to="my-learning">My Learning</Link></DropdownMenuItem>
-                  <DropdownMenuItem><Link to="profile">Edit Profile</Link></DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <Link to="my-learning">My Learning</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <Link to="profile">Edit Profile</Link>
+                  </DropdownMenuItem>
 
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={logoutHandler}>Log out</DropdownMenuItem></DropdownMenuGroup>
-                {
-                  user?.role === "instructor" && (
-                    <> <DropdownMenuSeparator />
-                      <DropdownMenuItem>Dashboard</DropdownMenuItem>
-
-                    </>
-                  )
-
-                }
+                  <DropdownMenuItem onClick={logoutHandler}>
+                    Log out
+                  </DropdownMenuItem>
+                </DropdownMenuGroup>
+                {user?.role === "instructor" && (
+                  <>
+                    {" "}
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem>Dashboard</DropdownMenuItem>
+                  </>
+                )}
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (
             <div className="flex items-center gap-2">
-              <Button variant="outline" onClick={() => navigate("/login")}>Login</Button>
+              <Button variant="outline" onClick={() => navigate("/login")}>
+                Login
+              </Button>
               <Button onClick={() => navigate("/login")}>Signup</Button>
             </div>
           )}

@@ -61,14 +61,25 @@ export const editCourse =async (req,res) => {
         let courseThumbnail;
         if(thumbnail){
             if(course.courseThumbnail){
-                const publicId = course.courseThumbnail.split("/").pop().spit(".")[0];
+                const publicId = course.courseThumbnail.split("/").pop().split(".")[0];
                 await deleteMediaFromCloudinary(publicId); //delete old image
             }
             //upload a thumbnail on cloudinary
             courseThumbnail=await uploadMedia(thumbnail.path);
         }
 
-        const updateData={courseTitle,subTitle,description,category,courseLevel,coursePrice,courseThumbnail:courseThumbnail.secure_url};
+        let updateData = {
+            courseTitle,
+            subTitle,
+            description,
+            category,
+            courseLevel,
+            coursePrice,
+          };
+          
+          if (courseThumbnail) {
+            updateData.courseThumbnail = courseThumbnail.secure_url;
+          }          
         course=await Course.findByIdAndUpdate(courseId,updateData,{new:true});
         return res.status(200).json({
             course,
@@ -78,7 +89,29 @@ export const editCourse =async (req,res) => {
     catch(error){
         console.log(error);
         return res.status(500).json({
-            message:"Failed to create course"
+            message:"Failed to create course."
+        })
+    }
+}
+
+
+export const getCourseById= async (req,res)=>{
+    try{
+        const { courseId }=req.params;
+
+        const course =await Course.findById(courseId);
+        if(!course){
+            return res.status(404)({
+                message: 'Course not found!'
+            })
+        }
+        return res.status(200).json({
+            course
+        })
+    }catch(error){
+        console.log(error);
+        return res.status(500).json({
+            message:"Failed to get course details by id."
         })
     }
 }
