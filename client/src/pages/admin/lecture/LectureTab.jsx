@@ -15,6 +15,7 @@ import { toast } from "sonner";
 import { Progress } from "../../../../components/ui/progress";
 import {
   useEditLectureMutation,
+  useGetLectureByIdQuery,
   useRemoveLectureMutation,
 } from "../../../../src/features/api/courseApi";
 import { useParams } from "react-router-dom";
@@ -30,6 +31,16 @@ const LectureTab = () => {
   const [btnDisable, setBtnDisable] = useState(true);
   const params = useParams();
   const { courseId, lectureId } = params;
+  const { data: lectureData } = useGetLectureByIdQuery(lectureId);
+  const lecture = lectureData?.lecture;
+
+  useEffect(() => {
+    if (lecture) {
+      setLectureTitle(lecture.lectureTitle);
+      setIsFree(lecture.isPreviewFree);
+      setUploadVideoInfo(lecture.videoInfo);
+    }
+  }, [lecture]);
   const [editLecture, { data, isLoading, error, isSuccess }] =
     useEditLectureMutation();
 
@@ -142,10 +153,16 @@ const LectureTab = () => {
             onChange={fileChangeHandler}
           ></Input>
         </div>
-        <div className="flex items-center space-x-2 my-2">
-          <Switch id="airplane-mode" />
-          <Label htmlFor="airplane-mode">Is this video FREE</Label>
-        </div>
+        {lecture && (
+          <div className="flex items-center space-x-2 my-2">
+            <Switch
+              checked={isFree}
+              onCheckedChange={setIsFree}
+              id="airplane-mode"
+            />
+            <Label htmlFor="airplane-mode">Is this video FREE</Label>
+          </div>
+        )}
 
         {mediaProgress && (
           <div className="my-4">
@@ -154,10 +171,7 @@ const LectureTab = () => {
           </div>
         )}
         <div className="mt-4">
-          <Button
-            onClick={editLectureHandler}
-            disabled={isLoading}
-          >
+          <Button onClick={editLectureHandler} disabled={isLoading}>
             {isLoading ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
