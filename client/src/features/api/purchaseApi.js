@@ -1,11 +1,11 @@
-import   {createApi} from "@reduxjs/toolkit/query/react";
+import   {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
 
 const COURSE_PURCHASE_API="http://localhost:8000/api/v1/purchase"
 
 export const purchaseApi=createApi({
     reducerPath:"purchaseApi",
-    baseQuery:fetchBaseQuery({
-        baseurl:COURSE_PURCHASE_API,
+    baseQuery: fetchBaseQuery({
+        baseUrl: COURSE_PURCHASE_API,
         credentials:'include'
     }),
     endpoints:(builder)=>({
@@ -13,10 +13,10 @@ export const purchaseApi=createApi({
             query:(courseId)=>({
                 url:"/checkout/create-checkout-session",
                 method:"POST",
-                body:courseId
-            })
-        })
-    })
-})
+                body:{courseId},
+            }),
+        }),
+    }),
+});
 
 export const {useCreateCheckoutSessionMutation}=purchaseApi;

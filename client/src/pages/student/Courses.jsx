@@ -1,8 +1,7 @@
 import { Skeleton } from "../../../components/ui/skeleton";
 import React, { use } from "react";
 import Course from "./Course";
-import { useGetPublishedCourseQuery } from "@/src/features/api/courseApi";
-
+import {useGetPublishedCourseQuery} from "../../features/api/courseApi"
 
 const Courses = () => {
   const {data,isLoading,isError}  =useGetPublishedCourseQuery();

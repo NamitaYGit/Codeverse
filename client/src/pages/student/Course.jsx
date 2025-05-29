@@ -4,9 +4,10 @@ import React from "react";
 import { Avatar } from "../../../components/ui/avatar";
 import { AvatarFallback, AvatarImage } from"../../../components/ui/avatar";
 import { Badge } from "../../../components/ui/badge";
-
+import { Link } from "react-router-dom";
 const Course = ({course}) => {
   return (
+    <Link to={`course-detail/${course._id}`} >
     <Card className="overflow-hidden rounded-lg dark:bg-gray-800 bg-white shadow-lg hover:shadow-2xl transform hover:scale-105 transition-all duration-300 p-0">
   <div className="relative m-0 p-0">
     <img
@@ -36,6 +37,8 @@ const Course = ({course}) => {
         </div>
       </CardContent>
     </Card>
+    </Link>
+    
   );
 };
 export default Course;

@@ -10,6 +10,7 @@ import {
   getLectureById,
   removeLecture,
   togglePublishCourse,
+  getPublishedCourse
 } from "../controllers/course.controller.js";
 import isAuthenticated from "../middlewares/isAuthenticated.js";
 import upload from "../utils/multer.js";
