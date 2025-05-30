@@ -14,6 +14,7 @@ import { useParams } from 'react-router-dom';
 import BuyCourseButton from '../../../components/BuyCourseButton';
 const CourseDetail = () => {
   const params=useParams();
+  const {data,isLoading}=useGetCourseDetailWithStatusQuery(params.courseId);
   const courseId=params.courseId;
 
   const purchasedCourse=false;

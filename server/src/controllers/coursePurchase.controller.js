@@ -8,7 +8,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 export const createCheckoutSession = async (req, res) => {
   try {
-    
+
     const userId = req.id;
     const { courseId } = req.body;
 
@@ -138,3 +138,50 @@ export const stripeWebhook = async (req, res) => {
   }
   res.status(200).send();
 };
+export const getCourseDetailWithPurchaseStatus = async (req, res) => {
+  try {
+    const userId = req.id;
+    const { courseId } = req.params;
+
+    const course = await Course.findById(courseId).populate({ path: "creator" }).populate({ path: "lectures" });
+
+   
+
+    // Check if the user has purchased the course
+    const purchased = await CoursePurchase.findOne({
+      courseId,
+      userId
+    });
+ if(!course)
+  {
+return res.status(404).json({ message: "Course not found!" });
+  } 
+    
+    return res.status(200).json({
+      
+      course,
+      purchased:purchased ? true : false, //!!purchased
+    });
+  } catch (error) {
+    console.error(error);
+     }
+}
+
+export const getAllPurchasedCourse=async (_,res)=>
+{
+  try{
+    const purchasedCourse=await CoursePurchase.find({status:"completed"}).populate("courseId");
+    if(!purchasedCourse){
+    return res.status(404).json({
+    
+      purchasedCourse:[]
+    });}
+    return res.status(200).json({
+      purchasedCourse
+    });
+  }
+  catch(error)
+  {
+    console.log(error);
+  }
+}
