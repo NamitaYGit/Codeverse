@@ -18,7 +18,7 @@ export const purchaseApi=createApi({
         }),
         getCourseDetailWithStatus:builder.query({
             query:(courseId)=>({
-                url:`/course/${courseId}/details-with-status`,
+                url:`/course/${courseId}/detail-with-status`,
                 method:"GET",
             }),
         }),

@@ -149,8 +149,9 @@ export const getCourseDetailWithPurchaseStatus = async (req, res) => {
 
     // Check if the user has purchased the course
     const purchased = await CoursePurchase.findOne({
-      courseId,
-      userId
+      userId,
+      courseId
+      
     });
  if(!course)
   {
