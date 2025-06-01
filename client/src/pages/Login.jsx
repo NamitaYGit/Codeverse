@@ -24,8 +24,11 @@ import { Loader2, Github } from "lucide-react";
 import { toast } from "sonner";
 import { GoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
-
+import { useDispatch } from "react-redux";
+import { userLoggedIn } from "../features/authSlice.js";
 const Login = () => {
+  const dispatch = useDispatch();
+
   const [signupInput, setSignupInput] = useState({
     name: "",
     email: "",
@@ -87,6 +90,7 @@ const Login = () => {
       const data = await response.json();
 
       if (response.ok) {
+         dispatch(userLoggedIn({ user: data.user }));
         toast.success(data.message || "Google login successful");
       } else {
         toast.error(data.message || "Google login failed");
@@ -105,10 +109,10 @@ const Login = () => {
 
   const handleGithubLogin = () => {
     const githubClientId =
-      import.meta.env.VITE_GITHUB_CLIENT_ID || "Ov23litNLpopuAY0wkze";
+      import.meta.env.VITE_GITHUB_CLIENT_ID ;
     const redirectUri =
-      import.meta.env.VITE_GITHUB_REDIRECT_URI ||
-      "http://localhost:5173/github-callback";
+      import.meta.env.VITE_GITHUB_REDIRECT_URI ;
+      
 
     window.location.assign(
       `https://github.com/login/oauth/authorize?client_id=${githubClientId}&redirect_uri=${encodeURIComponent(
