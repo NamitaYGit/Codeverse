@@ -26,8 +26,10 @@ import { GoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
 import { useDispatch } from "react-redux";
 import { userLoggedIn } from "../features/authSlice.js";
+import { useNavigate} from 'react-router-dom';
 const Login = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [signupInput, setSignupInput] = useState({
     name: "",
@@ -92,6 +94,7 @@ const Login = () => {
       if (response.ok) {
          dispatch(userLoggedIn({ user: data.user }));
         toast.success(data.message || "Google login successful");
+       navigate("/");
       } else {
         toast.error(data.message || "Google login failed");
       }

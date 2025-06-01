@@ -21,6 +21,8 @@ import CreateLecture from "./pages/admin/lecture/CreateLecture";
 import EditLecture from "./pages/admin/lecture/EditLecture";
 import CourseDetail from "./pages/student/CourseDetail";
 import CourseProgress from "./pages/student/CourseProgress";
+import { useDispatch } from "react-redux";
+import { userLoggedIn } from "./features/authSlice";
 const appRouter = createBrowserRouter([
   {
     path: "/",
@@ -93,6 +95,7 @@ const appRouter = createBrowserRouter([
 ]);
 
 function GitHubCallback() {
+  const dispatch = useDispatch();
   useEffect(() => {
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
@@ -114,8 +117,9 @@ function GitHubCallback() {
       const data = await response.json();
       
       if (response.ok) {
+          dispatch(userLoggedIn({ user: data.user }));
         toast.success(data.message || "Giithub login successful");
-        // window.location.href = '/';
+        window.location.href = '/';
       } else {
         // console.error('GitHub login failed:', data.message);
         toast.error(data.message || "GitHub login failed");

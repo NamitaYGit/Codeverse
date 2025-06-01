@@ -89,7 +89,7 @@ const CourseDetail = () => {
             </CardContent>
             <CardFooter className='flex justify-center p-4'>
               {
-                purchasedCourse ? (
+                purchased ? (
                   <Button onClick={handleContinueCourse} className='w-full' >
                     Continue Course
                   </Button>
