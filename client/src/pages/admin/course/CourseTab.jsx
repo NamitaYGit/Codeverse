@@ -26,6 +26,7 @@ import {
   useEditCourseMutation,
   useGetCourseByIdQuery,
   usePublishCourseMutation,
+  useRemoveCourseMutation,
 } from "../../../../src/features/api/courseApi";
 import { toast } from "sonner";
 
@@ -44,6 +45,14 @@ const CourseTab = () => {
   const { data: courseByIdData, isLoading: courseByIdIsLoading, refetch } =
     useGetCourseByIdQuery(courseId,{refetchOnMountOrArgChange:true});
   const [publishCourse,{}]=usePublishCourseMutation();
+  const [
+      removeCourse,
+      {
+        data: removeData,
+        isLoading: removeIsLoading,
+        isSuccess: removeIsSuccess,
+      },
+    ] = useRemoveCourseMutation();
   useEffect(() => {
     if (courseByIdData?.course) {
       const course = courseByIdData?.course;
@@ -97,6 +106,11 @@ const CourseTab = () => {
 
     await editCourse({ formData, courseId });
   };
+
+  const removeCourseHandler = async () => {
+    await removeCourse(courseId);
+  };
+
  const publishStatusHandler= async (action) =>{
    try {
     const response=await publishCourse({courseId,query:action});
@@ -116,6 +130,9 @@ const CourseTab = () => {
       toast.error(error.data.message || "Failed to update course.");
     }
   }, [isSuccess, error]);
+  useEffect(() => {
+      if (removeIsSuccess) toast.success(removeData.message);
+    }, [removeIsSuccess]);
   const navigate = useNavigate();
   if(courseByIdIsLoading) return <Loader2 className="h-4 w-4 animate-spin"/>
 
@@ -133,7 +150,20 @@ const CourseTab = () => {
             <Button disabled={courseByIdData?.course.lectures.length === 0} variant="outline" onClick={()=>publishStatusHandler(courseByIdData?.course.isPublished ? "false" : "true")} >
               {courseByIdData?.course.isPublished? "Unpublish" : "Publish"}
             </Button>
-            <Button>Remove Course</Button>
+            <Button
+                        disabled={removeIsLoading}
+                        onClick={removeCourseHandler}
+                        variant="destructive"
+                      >
+                        {removeIsLoading ? (
+                          <>
+                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                            Please wait
+                          </>
+                        ) : (
+                          "Remove Course"
+                       )}
+                      </Button>
           </div>
         </CardHeader>
         <CardContent>

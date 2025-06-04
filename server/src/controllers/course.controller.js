@@ -117,7 +117,27 @@ export const editCourse =async (req,res) => {
         })
     }
 }
+export const removeCourse =async (req,res) =>{
+    try {
+        const {courseId}=req.params;
+        const course =await Course.findByIdAndDelete(courseId);
+        if(!course){
+            return res.status(404).json({
+                message:"Not able to remove course!"
+            });
+        }
 
+        return res.status(200).json({
+            course,
+            message:"Course removed successfully."
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            message:"Failed to remove course."
+        });
+    }
+}
 
 export const getCourseById= async (req,res)=>{
     try{
