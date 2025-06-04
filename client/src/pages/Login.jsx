@@ -141,60 +141,63 @@ const Login = () => {
   ]);
 
   return (
-    <div className="flex items-center justify-center w-full mt-20">
+    <div className="flex items-center justify-center w-full mt-20 bg-white dark:bg-[#0b132b] transition-colors duration-300 min-h-screen">
       <Tabs defaultValue="login" className="w-[400px]">
-        <TabsList className="grid w-full grid-cols-2">
-          <TabsTrigger value="signup">Signup</TabsTrigger>
-          <TabsTrigger value="login">Login</TabsTrigger>
+        <TabsList className="grid w-full grid-cols-2 bg-[#5bc0be]/10 dark:bg-[#1c2541] border border-[#5bc0be]/20 dark:border-[#5bc0be]/30">
+          <TabsTrigger value="signup" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-[#5bc0be] data-[state=active]:to-[#3a506b] data-[state=active]:text-white text-[#1c2541] dark:text-[#5bc0be]">Signup</TabsTrigger>
+          <TabsTrigger value="login" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-[#5bc0be] data-[state=active]:to-[#3a506b] data-[state=active]:text-white text-[#1c2541] dark:text-[#5bc0be]">Login</TabsTrigger>
         </TabsList>
 
         {/* Signup Tab */}
         <TabsContent value="signup">
-          <Card>
+          <Card className="bg-white dark:bg-[#1c2541] border border-[#5bc0be]/20 dark:border-[#5bc0be]/30 shadow-lg">
             <CardHeader>
-              <CardTitle>Signup</CardTitle>
-              <CardDescription>Create a new account.</CardDescription>
+              <CardTitle className="text-[#1c2541] dark:text-white">Signup</CardTitle>
+              <CardDescription className="text-[#3a506b] dark:text-[#5bc0be]/80">Create a new account.</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-1">
-                <Label htmlFor="name">Name</Label>
+                <Label htmlFor="name" className="text-[#1c2541] dark:text-[#5bc0be]">Name</Label>
                 <Input
                   name="name"
                   value={signupInput.name}
                   onChange={(e) => changeInputHandler(e, "signup")}
                   type="text"
                   placeholder="Eg. Charlie"
+                  className="border-[#5bc0be]/30 dark:border-[#5bc0be]/50 bg-white dark:bg-[#0b132b] text-[#0b132b] dark:text-white placeholder-[#3a506b] dark:placeholder-[#5bc0be]/60 focus:border-[#5bc0be] dark:focus:border-[#5bc0be]"
                   required
                 />
               </div>
               <div className="space-y-1">
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="email" className="text-[#1c2541] dark:text-[#5bc0be]">Email</Label>
                 <Input
                   name="email"
                   value={signupInput.email}
                   type="email"
                   onChange={(e) => changeInputHandler(e, "signup")}
                   placeholder="Eg. abc@gmail.com"
+                  className="border-[#5bc0be]/30 dark:border-[#5bc0be]/50 bg-white dark:bg-[#0b132b] text-[#0b132b] dark:text-white placeholder-[#3a506b] dark:placeholder-[#5bc0be]/60 focus:border-[#5bc0be] dark:focus:border-[#5bc0be]"
                   required
                 />
               </div>
               <div className="space-y-1">
-                <Label htmlFor="password">Password</Label>
+                <Label htmlFor="password" className="text-[#1c2541] dark:text-[#5bc0be]">Password</Label>
                 <Input
                   name="password"
                   value={signupInput.password}
                   onChange={(e) => changeInputHandler(e, "signup")}
                   type="password"
                   placeholder="Eg. abc"
+                  className="border-[#5bc0be]/30 dark:border-[#5bc0be]/50 bg-white dark:bg-[#0b132b] text-[#0b132b] dark:text-white placeholder-[#3a506b] dark:placeholder-[#5bc0be]/60 focus:border-[#5bc0be] dark:focus:border-[#5bc0be]"
                   required
                 />
               </div>
 
               <div className="relative flex items-center justify-center">
                 <div className="absolute inset-0 flex items-center">
-                  <span className="w-full border-t" />
+                  <span className="w-full border-t border-[#5bc0be]/30 dark:border-[#5bc0be]/50" />
                 </div>
-                <span className="relative z-10 bg-white px-2 text-sm text-muted-foreground">
+                <span className="relative z-10 bg-white dark:bg-[#1c2541] px-2 text-sm text-[#3a506b] dark:text-[#5bc0be]/80">
                   Or continue with
                 </span>
               </div>
@@ -211,7 +214,7 @@ const Login = () => {
 
                 <Button
                   variant="outline"
-                  className="flex items-center gap-2 justify-center w-full max-w-[256px] mx-auto"
+                  className="flex items-center gap-2 justify-center w-full max-w-[256px] mx-auto border-[#5bc0be]/30 dark:border-[#5bc0be]/50 text-[#1c2541] dark:text-[#5bc0be] hover:bg-[#5bc0be]/10 dark:hover:bg-[#5bc0be]/20"
                   onClick={handleGithubLogin}
                 >
                   <Github size={18} />
@@ -223,7 +226,7 @@ const Login = () => {
               <Button
                 disabled={registerIsLoading}
                 onClick={() => handleRegistration("signup")}
-                className="w-full"
+                className="w-full bg-gradient-to-r from-[#5bc0be] to-[#3a506b] hover:from-[#3a506b] hover:to-[#1c2541] text-white transition-all duration-300"
               >
                 {registerIsLoading ? (
                   <>
@@ -240,40 +243,42 @@ const Login = () => {
 
         {/* Login Tab */}
         <TabsContent value="login">
-          <Card>
+          <Card className="bg-white dark:bg-[#1c2541] border border-[#5bc0be]/20 dark:border-[#5bc0be]/30 shadow-lg">
             <CardHeader>
-              <CardTitle>Login</CardTitle>
-              <CardDescription>Login to your account.</CardDescription>
+              <CardTitle className="text-[#1c2541] dark:text-white">Login</CardTitle>
+              <CardDescription className="text-[#3a506b] dark:text-[#5bc0be]/80">Login to your account.</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-1">
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="email" className="text-[#1c2541] dark:text-[#5bc0be]">Email</Label>
                 <Input
                   name="email"
                   value={loginInput.email}
                   onChange={(e) => changeInputHandler(e, "login")}
                   type="email"
                   placeholder="Eg. abc@gmail.com"
+                  className="border-[#5bc0be]/30 dark:border-[#5bc0be]/50 bg-white dark:bg-[#0b132b] text-[#0b132b] dark:text-white placeholder-[#3a506b] dark:placeholder-[#5bc0be]/60 focus:border-[#5bc0be] dark:focus:border-[#5bc0be]"
                   required
                 />
               </div>
               <div className="space-y-1">
-                <Label htmlFor="password">Password</Label>
+                <Label htmlFor="password" className="text-[#1c2541] dark:text-[#5bc0be]">Password</Label>
                 <Input
                   name="password"
                   value={loginInput.password}
                   onChange={(e) => changeInputHandler(e, "login")}
                   type="password"
                   placeholder="Eg. abc"
+                  className="border-[#5bc0be]/30 dark:border-[#5bc0be]/50 bg-white dark:bg-[#0b132b] text-[#0b132b] dark:text-white placeholder-[#3a506b] dark:placeholder-[#5bc0be]/60 focus:border-[#5bc0be] dark:focus:border-[#5bc0be]"
                   required
                 />
               </div>
 
               <div className="relative flex items-center justify-center">
                 <div className="absolute inset-0 flex items-center">
-                  <span className="w-full border-t" />
+                  <span className="w-full border-t border-[#5bc0be]/30 dark:border-[#5bc0be]/50" />
                 </div>
-                <span className="relative z-10 bg-white px-2 text-sm text-muted-foreground">
+                <span className="relative z-10 bg-white dark:bg-[#1c2541] px-2 text-sm text-[#3a506b] dark:text-[#5bc0be]/80">
                   Or continue with
                 </span>
               </div>
@@ -290,7 +295,7 @@ const Login = () => {
 
                 <Button
                   variant="outline"
-                  className="flex items-center gap-2 justify-center w-full max-w-[256px] mx-auto"
+                  className="flex items-center gap-2 justify-center w-full max-w-[256px] mx-auto border-[#5bc0be]/30 dark:border-[#5bc0be]/50 text-[#1c2541] dark:text-[#5bc0be] hover:bg-[#5bc0be]/10 dark:hover:bg-[#5bc0be]/20"
                   onClick={handleGithubLogin}
                 >
                   <Github size={18} />
@@ -302,7 +307,7 @@ const Login = () => {
               <Button
                 disabled={loginIsLoading}
                 onClick={() => handleRegistration("login")}
-                className="w-full"
+                className="w-full bg-gradient-to-r from-[#5bc0be] to-[#3a506b] hover:from-[#3a506b] hover:to-[#1c2541] text-white transition-all duration-300"
               >
                 {loginIsLoading ? (
                   <>
