@@ -1,4 +1,4 @@
-import React from "react"; 
+import React from "react";
 import { Separator } from "@radix-ui/react-separator";
 import {
   Select,
@@ -7,13 +7,13 @@ import {
   SelectGroup,
   SelectItem,
   SelectLabel,
-  SelectValue
+  SelectValue,
 } from "../../../components/ui/select";
 import { Checkbox } from "../../../components/ui/checkbox";
 import { Label } from "../../../components/ui/label";
+import { useState } from "react";
 
-const categories=
-  [
+const categories = [
   { id: "nextjs", label: "Next JS" },
   { id: "data science", label: "Data Science" },
   { id: "frontend development", label: "Frontend Development" },
@@ -24,21 +24,33 @@ const categories=
   { id: "python", label: "Python" },
   { id: "docker", label: "Docker" },
   { id: "mongodb", label: "MongoDB" },
-  { id: "html", label: "HTML" }
-]
+  { id: "html", label: "HTML" },
+];
 
+const Filter = ({handleFilterChange}) => {
+  const [selectedCategories, setSelectedCategories] = useState([]);
+  const [sortByPrice, setSortByPrice] = useState("");
+  const handleCategoryChange = (categoryId) => {
+    setSelectedCategories((prevCategories) => {
+      const newCategories = prevCategories.includes(categoryId)
+        ? prevCategories.filter((id) => id !== categoryId)
+        : [...prevCategories, categoryId];
 
-const Filter = () => {
-  const handleCategoryChange =(categoryid)=>{
-
+        handleFilterChange(newCategories,sortByPrice);
+        return newCategories;
+    });
+  };
+  const selectByPriceHandler=(selectedValue)=>{
+    setSortByPrice(selectedValue);
+    handleFilterChange(selectedCategories,selectedValue);
   }
   return (
     <div className="w-full md:w-[20%]">
       <div className="flex items-center justify-between">
         <h1 className="font-semibold text-lg md:text-xl">Filter options</h1>
-        <Select>
+        <Select onValueChange={selectByPriceHandler}>
           <SelectTrigger>
-            <SelectValue placeholder="Sort by"/>
+            <SelectValue placeholder="Sort by" />
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
@@ -49,19 +61,20 @@ const Filter = () => {
           </SelectContent>
         </Select>
       </div>
-      <Separator className="my-4"/>
+      <Separator className="my-4" />
       <div>
         <h1 className="font-semibold mb-2">Category</h1>
-        {
-          categories.map((category)=>(
-           <div className="flex items-center spav=ce-x-2 my-2">
-            <Checkbox id={category.id} onCheckedChange={handleCategoryChange(category.id)}/>
-            <Label className='text-sm px-2 font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'>
+        {categories.map((category) => (
+          <div className="flex items-center space-x-2 my-2">
+            <Checkbox
+              id={category.id}
+              onCheckedChange={()=>handleCategoryChange(category.id)}
+            />
+            <Label htmlFor={category.id}  className="text-sm px-2 font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
               {category.label}
             </Label>
-            </div>
-          ))
-        }
+          </div>
+        ))}
       </div>
     </div>
   );
