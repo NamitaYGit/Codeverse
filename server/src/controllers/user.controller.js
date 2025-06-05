@@ -1,17 +1,13 @@
-import {User} from '../models/user.model.js';
-import bcrypt from 'bcryptjs';
-import { generateToken } from '../utils/generateToken.js';
-
-
-
-   
+import { User } from "../models/user.model.js";
+import bcrypt from "bcryptjs";
+import { generateToken } from "../utils/generateToken.js";
 import axios from "axios";
 
-import { deleteMediaFromCloudinary, uploadMedia } from '../utils/cloudinary.js';
+import { deleteMediaFromCloudinary, uploadMedia } from "../utils/cloudinary.js";
 
 export const register = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password, role } = req.body;
 
     if (!name || !email || !password) {
       return res.status(400).json({
@@ -19,6 +15,10 @@ export const register = async (req, res) => {
         message: "Please provide all required fields",
       });
     }
+
+    const allowedRoles = ["student", "instructor"];
+    const userRole = allowedRoles.includes(role) ? role : "student";
+
     // Check if user already exists
     const user = await User.findOne({ email });
     if (user) {
@@ -27,8 +27,14 @@ export const register = async (req, res) => {
         message: "User already exists with this email",
       });
     }
+
     const hashedPassword = await bcrypt.hash(password, 10);
-    await User.create({ name, email, password: hashedPassword });
+    await User.create({
+      name,
+      email,
+      password: hashedPassword,
+      role: userRole,
+    });
 
     return res.status(201).json({
       success: true,
@@ -70,12 +76,16 @@ export const login = async (req, res) => {
       });
     }
     generateToken(res, user, `Welcome back ${user.name}`);
-
-    //res.status(200).json({
-    //   success: true,
-    //  message: 'Login successful',
-    // user,
-    //   });
+    res.status(200).json({
+      success: true,
+      message: `Welcome back ${user.name}`,
+      user: {
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        photoUrl: user.photoUrl,
+      },
+    });
   } catch (error) {
     console.error("Error logging in user:", error);
     return res.status(500).json({
@@ -107,7 +117,17 @@ export const googleLogin = async (req, res) => {
       });
     }
 
-    generateToken(res, user, `Welcome ${user.name} (signed in with google)`);
+    res.status(200).json({
+  success: true,
+  message: `Welcome ${user.name} (signed in with google)`,
+  user: {
+    name: user.name,
+    email: user.email,
+    role: user.role,
+    photoUrl: user.photoUrl,
+  }
+});
+
   } catch (error) {
     console.error("Google login error:", error);
     return res.status(500).json({
@@ -192,11 +212,17 @@ export const githubLogin = async (req, res) => {
         await user.save();
       }
     }
-    const result = generateToken(
-      res,
-      user,
-      `Welcome ${user.name} (signed in with GitHub)`
-    );
+    res.status(200).json({
+  success: true,
+  message: `Welcome ${user.name} (signed in with Github)`,
+  user: {
+    name: user.name,
+    email: user.email,
+    role: user.role,
+    photoUrl: user.photoUrl,
+  }
+});
+
   } catch (error) {
     return res.status(500).json({
       success: false,
@@ -206,20 +232,20 @@ export const githubLogin = async (req, res) => {
   }
 };
 
-export const logout=async (req,res)=>
-{
-    try{
-  return res.status(200).cookie("token","",{maxAge:0}).json({
-    message:"Logged out Successfully!",
-    success:true
-  });
-    } catch(error)
-    {
-        console.log(error);
-        return res.status(500).json({
-            success:false,
-            message:"Failed to Logout"
-        })}};
+export const logout = async (req, res) => {
+  try {
+    return res.status(200).cookie("token", "", { maxAge: 0 }).json({
+      message: "Logged out Successfully!",
+      success: true,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      success: false,
+      message: "Failed to Logout",
+    });
+  }
+};
 export const githubCallback = async (req, res) => {
   const { code } = req.query;
   if (!code) {
@@ -228,12 +254,12 @@ export const githubCallback = async (req, res) => {
   res.redirect(`/github-callback?code=${code}`);
 };
 
-
-
 export const getUserProfile = async (req, res) => {
   try {
     const userId = req.id;
-    const user = await User.findById(userId).select("-password");
+    const user = await User.findById(userId)
+      .select("-password")
+      .populate("enrolledCourses");
     if (!user) {
       return res.status(404).json({
         message: "Profile not found",
@@ -254,45 +280,52 @@ export const getUserProfile = async (req, res) => {
   }
 };
 
+export const updateProfile = async (req, res) => {
+  try {
+    const userId = req.id;
+    const { name, role } = req.body;
+    const profilePhoto = req.file;
 
-
-export const updateProfile=async (req,res)=>
-{
-    try{
-        const userId =req.id;
-        const  {name}=req.body;
-        const profilePhoto=req.file;
-        const user =await User.findById(userId);
-        if(!user)
-            {
-                return res.status(404).json({
-                    message:"User not found",
-                    success:false
-                })
-               }
-
-               //extract public id of the old image from the url if it exists
-               if(user.photoUrl)
-               {
-                const publicId=user.photoUrl.split("/").pop().split(".")[0];//extract public id     
-                deleteMediaFromCloudinary(publicId) ;         }
-                const cloudResponse=await uploadMedia(profilePhoto.path);
-                const { secure_url:photoUrl}=cloudResponse;
-               const updatedData={name,photoUrl};
-               const updatedUser=await User.findByIdAndUpdate(userId,updatedData,{new:true}).select("-password");
-               return res.status(200).json({
-                success:true,
-                user:updatedUser,
-                message:"Profile updated successfully"
-               })
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({
+        message: "User not found",
+        success: false,
+      });
     }
-    catch(error)
-    {
-        console.log(error);
-        return res.status(500).json({
-            success:false,
-            message:"Failed to update profile"
-        })
+
+    const updatedData = { name };
+
+    // Handle role safely
+    if (role && ["student", "instructor"].includes(role)) {
+      updatedData.role = role;
     }
-  
+
+    // Handle image
+    if (profilePhoto) {
+      if (user.photoUrl) {
+        const publicId = user.photoUrl.split("/").pop().split(".")[0];
+        await deleteMediaFromCloudinary(publicId);
+      }
+      const cloudResponse = await uploadMedia(profilePhoto.path);
+      updatedData.photoUrl = cloudResponse.secure_url;
+    }
+
+    const updatedUser = await User.findByIdAndUpdate(userId, updatedData, {
+      new: true,
+    }).select("-password");
+
+    return res.status(200).json({
+      success: true,
+      message: "Profile updated successfully",
+      user: updatedUser,
+    });
+  } catch (error) {
+    console.error("Update profile error:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Failed to update profile",
+      error: error.message,
+    });
+  }
 };

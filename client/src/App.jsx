@@ -23,6 +23,8 @@ import CourseDetail from "./pages/student/CourseDetail";
 import CourseProgress from "./pages/student/CourseProgress";
 import { useDispatch } from "react-redux";
 import { userLoggedIn } from "./features/authSlice";
+import SearchPage from "./pages/student/SearchPage";
+import { ThemeProvider } from "../components/ThemeProvider";
 const appRouter = createBrowserRouter([
   {
     path: "/",
@@ -50,6 +52,10 @@ const appRouter = createBrowserRouter([
       {
         path: "profile",
         element: <Profile/>,
+      },
+      {
+        path: "course/search",
+        element: <SearchPage/>,
       },
        {
         path: "course-detail/:courseId",
@@ -149,7 +155,10 @@ function App() {
   return (
     <GoogleOAuthProvider clientId={googleClientId}>
       <main>
+        <ThemeProvider>
+          
         <RouterProvider router={appRouter} />
+        </ThemeProvider>
       </main>
     </GoogleOAuthProvider>
   );

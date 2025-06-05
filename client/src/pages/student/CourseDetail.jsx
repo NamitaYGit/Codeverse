@@ -17,7 +17,7 @@ import ReactPlayer from 'react-player';
 const CourseDetail = () => {
   const params=useParams();
   const navigate = useNavigate();
-    const courseId=params.courseId;
+  const courseId=params.courseId;
 
   const {data,isLoading,isError}=useGetCourseDetailWithStatusQuery(courseId);
   if(isLoading)
