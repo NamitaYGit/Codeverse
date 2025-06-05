@@ -39,7 +39,7 @@ const CourseDetail = () => {
         <h1 className='font-bold text-2xl md:text-3xl'>
          {course?.courseTitle}</h1>
         <p className="text-base md:text-lg">
-          Course Sub-Title</p>
+          {course?.courseSubtitle}</p>
         <p>
           Created By {" "} <span className="text-[#C0C4FC] underline italic">{course?.creator.name}</span></p>
         <div className="flex items-center gap-2 text-sm">
@@ -56,7 +56,7 @@ const CourseDetail = () => {
           <Card>
             <CardHeader>
               <CardTitle>Course Content</CardTitle>
-              <CardDescription>8 lectures</CardDescription>
+              <CardDescription>{course?.lectures?.length} lectures</CardDescription>
             </CardHeader>
             <CardContent className="space-y-3">
               {course.lectures.map((lecture, idx) => (
@@ -83,9 +83,9 @@ const CourseDetail = () => {
                   controls={true}
                   />
               </div>
-              <h1>lecture title</h1>
+              <h1>{course.lectures[0].lectureTitle}</h1>
               <Separator className='my-2'/>
-              <h1 className="text-lg  md:text-xl font-semibold" >course price</h1>
+              <h1 className="text-lg  md:text-xl font-semibold" >₹ {course?.coursePrice}</h1>
             </CardContent>
             <CardFooter className='flex justify-center p-4'>
               {

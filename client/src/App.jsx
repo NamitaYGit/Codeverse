@@ -25,6 +25,12 @@ import { useDispatch } from "react-redux";
 import { userLoggedIn } from "./features/authSlice";
 import SearchPage from "./pages/student/SearchPage";
 import { ThemeProvider } from "../components/ThemeProvider";
+import {
+  AdminRoute,
+  AuthenticatedUser,
+  ProtectedRoute,
+} from "../components/ProtectedRoutes";
+import PurchaseCourseProtectedRoute from "../components/PurchaseCourseProtectedRoute";
 const appRouter = createBrowserRouter([
   {
     path: "/",
@@ -41,34 +47,64 @@ const appRouter = createBrowserRouter([
       },
       {
         path: "/login",
-        element: <Login />,
+         element: (
+          <AuthenticatedUser>
+            <Login />
+          </AuthenticatedUser>
+        ),
       },
       {
         path: "/github-callback",
         element: <GitHubCallback />},
        { path: "my-learning",
-        element: <MyLearning/>,
+        element: (
+          <ProtectedRoute>
+            <MyLearning />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "profile",
-        element: <Profile/>,
+        element: (
+          <ProtectedRoute>
+            <Profile />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "course/search",
-        element: <SearchPage/>,
+         element: (
+          <ProtectedRoute>
+            <SearchPage />
+          </ProtectedRoute>
+        ),
       },
        {
         path: "course-detail/:courseId",
-        element: <CourseDetail/>,
+        element: (
+          <ProtectedRoute>
+            <CourseDetail />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "course-progress/:courseId",
-        element: <CourseProgress/>,
+        element: (
+          <ProtectedRoute>
+            <PurchaseCourseProtectedRoute>
+            <CourseProgress />
+            </PurchaseCourseProtectedRoute>
+          </ProtectedRoute>
+        ),
       },
-      //hereon admin routes are written
+      //hereon admin routes 
       {
         path: "admin",
-        element: <Sidebar/>,
+          element: (
+          <AdminRoute>
+            <Sidebar />
+          </AdminRoute>
+        ),
         children:[
           {
             path:"dashboard",
@@ -151,7 +187,6 @@ function GitHubCallback() {
 
 function App() {
   const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
-  
   return (
     <GoogleOAuthProvider clientId={googleClientId}>
       <main>

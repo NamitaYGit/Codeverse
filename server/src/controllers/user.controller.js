@@ -116,16 +116,16 @@ export const googleLogin = async (req, res) => {
         photoUrl,
       });
     }
-
+generateToken(res, user, `Welcome back ${user.name} (signed in with Google)`);
     res.status(200).json({
-  success: true,
-  message: `Welcome ${user.name} (signed in with google)`,
-  user: {
-    name: user.name,
-    email: user.email,
-    role: user.role,
-    photoUrl: user.photoUrl,
-  }
+      success: true,
+      message: `Welcome back ${user.name} (signed in with Google)`,
+      user: {
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        photoUrl: user.photoUrl,
+      },
 });
 
   } catch (error) {
@@ -212,15 +212,16 @@ export const githubLogin = async (req, res) => {
         await user.save();
       }
     }
+generateToken(res, user, `Welcome back ${user.name} (signed in with Github)`);
     res.status(200).json({
-  success: true,
-  message: `Welcome ${user.name} (signed in with Github)`,
-  user: {
-    name: user.name,
-    email: user.email,
-    role: user.role,
-    photoUrl: user.photoUrl,
-  }
+      success: true,
+      message: `Welcome back ${user.name} (signed in with Github)`,
+      user: {
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        photoUrl: user.photoUrl,
+      },
 });
 
   } catch (error) {

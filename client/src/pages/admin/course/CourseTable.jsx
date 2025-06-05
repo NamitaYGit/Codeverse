@@ -25,7 +25,7 @@ const CourseTable = () => {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {data.courses.map((course) => (
+        {data?.courses.map((course) => (
           <TableRow className="border-b border-gray-300 dark:border-gray-700" key={course._id}>
             <TableCell className=" px-4 py-2 font-medium">{course?.coursePrice || "NA"}</TableCell>
             <TableCell className="px-4 py-2" ><Badge>{course.isPublished?"Published":"Draft"}</Badge></TableCell>
