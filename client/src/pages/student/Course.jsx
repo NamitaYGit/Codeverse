@@ -25,7 +25,7 @@ const Course = ({course}) => {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <Avatar className='h-8 w-8 ring-2 ring-[#5BC0BE]/20'>
-                <AvatarImage src={course.creator?.photoUrl||"https://github.com/shadcn.png"} alt="@shadcn" />
+                <AvatarImage src={course.creator?.photoUrl||"https://cdn.vectorstock.com/i/500p/82/55/anonymous-user-icon-circle-shape-vector-18958255.jpg"} alt="@shadcn" />
                 <AvatarFallback className="bg-gradient-to-br from-[#5BC0BE] to-[#3A506B] text-white text-xs">CN</AvatarFallback>
               </Avatar>
               <h1 className="font-medium text-sm text-[#3A506B] dark:text-[#5BC0BE]/80">

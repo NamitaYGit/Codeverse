@@ -24,24 +24,20 @@ const Profile = () => {
         }
         if (isSuccess) {
             refetch();
+            toast.success(updateUserData?.message || "Profile updated successfully");
             setName(name);
             setRole(role);
-            toast.success(updateUserData?.message || "Profile updated successfully");
         }
         
     }, [error, updateUserData, isSuccess, isError, updateUserIsLoading]);
-     //console.log(data);
     const onChangeHandler = (e) => {
         const file = e.target.files?.[0];
         if (file) setProfilePhoto(file);
     }
-    // const isLoading = false;//save changes of edit profile
-    const enrolledCourses = [1];
+    const enrolledCourses =data?.enrolledCourses || [];
     if (isLoading) return <h1>Profile Loading...</h1>
     if (!data) return <h1>Failed to load user data</h1>;
     const { user } = data ;
-   //  console.log(user);
-     
     const updateUserHandler = async () => {
   const formData = new FormData();
   formData.append("name", name);
@@ -152,8 +148,8 @@ const Profile = () => {
                 </h1>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 my-5">
                     {
-                        user.enrolledCourses.length === 0 ? <h1>You haven't enrolled yet</h1> : (
-                            user.enrolledCourses.map((course) => <Course course={course} key={course.id} />)
+                        enrolledCourses.length === 0 ? <h1>You haven't enrolled yet</h1> : (
+                            enrolledCourses.map((course) => <Course course={course} key={course.id} />)
                         )
                     }
                 </div>
