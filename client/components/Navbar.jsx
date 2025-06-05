@@ -45,70 +45,94 @@ const Navbar = () => {
   const logoutHandler = async () => {
     await logoutUser();
   };
-   const role = "instructor";
   console.log(user);
 
   return (
-
     <div className="h-16 bg-[#ffffff] dark:bg-[#0B132B] border-b border-[#5BC0BE]/20 dark:border-[#5BC0BE]/30 fixed top-0 left-0 right-0 duration-300 z-10 shadow-lg">
       {/*Desktop*/}
       <div className="max-w-7xl mx-auto hidden md:flex justify-between items-center gap-10 h-full">
         <div className="flex items-center gap-2">
           <Squirrel size={"45"} />
-          <Link to="/" ><h1 className="hidden md:block font-extrabold text-2xl">CodeVerse</h1></Link>
+          <Link to="/">
+            <h1 className="hidden md:block font-extrabold text-2xl">
+              CodeVerse
+            </h1>
+          </Link>
         </div>
         {/*User Icon and Dark Mode Icon */}
         <div className="flex items-center gap-8">
           {user ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="p-0 h-auto rounded-full hover:ring-2 hover:ring-[#5BC0BE]/30 transition-all duration-300">
+                <Button
+                  variant="ghost"
+                  className="p-0 h-auto rounded-full hover:ring-2 hover:ring-[#5BC0BE]/30 transition-all duration-300"
+                >
                   <Avatar className="ring-2 ring-[#5BC0BE]/20">
                     <AvatarImage
-                      src={user?.photoUrl || "https://github.com/shadcn.png"}
+                      src={
+                        user?.photoUrl ||
+                        "https://cdn.vectorstock.com/i/500p/82/55/anonymous-user-icon-circle-shape-vector-18958255.jpg"
+                      }
                       alt="@shadcn"
                     />
-                    <AvatarFallback className="bg-gradient-to-br from-[#5BC0BE] to-[#3A506B] text-white">CN</AvatarFallback>
+                    <AvatarFallback className="bg-gradient-to-br from-[#5BC0BE] to-[#3A506B] text-white">
+                      CN
+                    </AvatarFallback>
                   </Avatar>
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-56 bg-[#ffffff] dark:bg-[#1C2541] border border-[#5BC0BE]/20 dark:border-[#5BC0BE]/30">
-                <DropdownMenuLabel className="text-[#1C2541] dark:text-[#5BC0BE]">My Account</DropdownMenuLabel>
+                <DropdownMenuLabel className="text-[#1C2541] dark:text-[#5BC0BE]">
+                  My Account
+                </DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
                   <DropdownMenuItem className="hover:bg-[#5BC0BE]/10 focus:bg-[#5BC0BE]/10">
-                    <Link to="my-learning" className="text-[#0B132B] dark:text-[#ffffff]">My Learning</Link>
+                    <Link
+                      to="my-learning"
+                      className="text-[#0B132B] dark:text-[#ffffff]"
+                    >
+                      My Learning
+                    </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem className="hover:bg-[#5BC0BE]/10 focus:bg-[#5BC0BE]/10">
-                    <Link to="profile" className="text-[#0B132B] dark:text-[#ffffff]">Edit Profile</Link>
+                    <Link
+                      to="profile"
+                      className="text-[#0B132B] dark:text-[#ffffff]"
+                    >
+                      Edit Profile
+                    </Link>
                   </DropdownMenuItem>
 
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem 
+                  <DropdownMenuItem
                     onClick={logoutHandler}
                     className="hover:bg-red-50 focus:bg-red-50 dark:hover:bg-red-900/20 dark:focus:bg-red-900/20 text-red-600 dark:text-red-400"
                   >
                     Log out
                   </DropdownMenuItem>
                 </DropdownMenuGroup>
-                {role === "instructor" && (
+                {user?.role === "instructor" && (
                   <>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem><Link to="/admin/dashboard">Dashboard</Link></DropdownMenuItem>
+                    <DropdownMenuItem>
+                      <Link to="/admin/dashboard">Dashboard</Link>
+                    </DropdownMenuItem>
                   </>
                 )}
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (
             <div className="flex items-center gap-2">
-              <Button 
-                variant="outline" 
+              <Button
+                variant="outline"
                 onClick={() => navigate("/login")}
                 className="border-[#5BC0BE]/30 text-[#3A506B] dark:text-[#5BC0BE] hover:bg-[#5BC0BE]/10 hover:border-[#5BC0BE] transition-all duration-300"
               >
                 Login
               </Button>
-              <Button 
+              <Button
                 onClick={() => navigate("/login")}
                 className="bg-gradient-to-r from-[#5BC0BE] to-[#3A506B] hover:from-[#3A506B] hover:to-[#1C2541] text-white border-0 transition-all duration-300 hover:shadow-lg"
               >
@@ -123,7 +147,11 @@ const Navbar = () => {
       <div className="flex md:hidden items-center justify-between px-4 h-full">
         <div className="flex items-center gap-2">
           <Squirrel size={"45"} />
-          <Link to="/" ><h1 className="hidden md:block font-extrabold text-2xl">CodeVerse</h1></Link>
+          <Link to="/">
+            <h1 className="hidden md:block font-extrabold text-2xl">
+              CodeVerse
+            </h1>
+          </Link>
         </div>
         <MobileNavbar />
       </div>
@@ -134,7 +162,19 @@ const Navbar = () => {
 export default Navbar;
 
 const MobileNavbar = () => {
-   const role = "instructor";
+  const { user } = useSelector((store) => store.auth);
+  const [logoutUser, { data, isSuccess }] = useLogoutUserMutation();
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success(data?.message || "Logout Successfully");
+      navigate("/login");
+    }
+  }, [isSuccess]);
+  const logoutHandler = async () => {
+    await logoutUser();
+  };
+  console.log(user);
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -150,46 +190,70 @@ const MobileNavbar = () => {
         {/* Header */}
         <SheetHeader className="flex flex-row items-center justify-between">
           <SheetTitle className="text-2xl font-bold">
-            CodeVerse
+            <Link to="/">
+              <h1>CodeVerse</h1>
+            </Link>
           </SheetTitle>
           <DarkMode />
         </SheetHeader>
 
         <Separator />
-
+        
         {/* Navigation */}
-        <nav className="flex flex-col space-y-2">
-          <Button 
-            variant="ghost" 
-            className="justify-start hover:bg-[#5BC0BE]/10 text-[#0B132B] dark:text-[#ffffff] hover:text-[#3A506B] dark:hover:text-[#5BC0BE] transition-all duration-300"
-          >
-            My Learning
-          </Button>
-          <Button 
-            variant="ghost" 
-            className="justify-start hover:bg-[#5BC0BE]/10 text-[#0B132B] dark:text-[#ffffff] hover:text-[#3A506B] dark:hover:text-[#5BC0BE] transition-all duration-300"
-          >
-            Edit Profile
-          </Button>
-          <Button 
-            variant="ghost" 
-            className="justify-start hover:bg-red-50 dark:hover:bg-red-700/20 text-red-600 dark:text-red-400 transition-all duration-300"
-          >
-            Log out
-          </Button>
-        </nav>
+      <nav className="flex flex-col space-y-2">
+  {user ? (
+    <>
+      <Button
+        variant="ghost"
+        className="justify-start hover:bg-[#5BC0BE]/10 text-[#0B132B] dark:text-[#ffffff] hover:text-[#3A506B] dark:hover:text-[#5BC0BE] transition-all duration-300"
+      >
+        <Link to="my-learning">My Learning</Link>
+      </Button>
+      <Button
+        variant="ghost"
+        className="justify-start hover:bg-[#5BC0BE]/10 text-[#0B132B] dark:text-[#ffffff] hover:text-[#3A506B] dark:hover:text-[#5BC0BE] transition-all duration-300"
+      >
+        <Link to="profile">Edit Profile</Link>
+      </Button>
+      <Button
+        variant="ghost"
+        onClick={logoutHandler}
+        className="justify-start hover:bg-red-50 dark:hover:bg-red-700/20 text-red-600 dark:text-red-400 transition-all duration-300"
+      >
+        Log out
+      </Button>
 
-        {/* Dashboard (only for instructor) */}
-        {role === "instructor" && (
-          <>
-            <Separator />
-            <SheetClose asChild>
-              <Button className="w-full mt-2 bg-[#3A506B] hover:bg-[#1C2541] text-white border-0 transition-all duration-300 hover:shadow-lg">
-                <Link to="/admin/dashboard">Dashboard</Link>
-              </Button>
-            </SheetClose>
-          </>
-        )}
+      {/* Instructor-only button inside authenticated block */}
+      {user.role === "instructor" && (
+        <>
+          <Separator />
+          <SheetClose asChild>
+            <Button className="w-full mt-2 bg-[#3A506B] hover:bg-[#1C2541] text-white border-0 transition-all duration-300 hover:shadow-lg">
+              <Link to="/admin/dashboard">Dashboard</Link>
+            </Button>
+          </SheetClose>
+        </>
+      )}
+    </>
+  ) : (
+    <>
+      <Button
+        variant="outline"
+        onClick={() => navigate("/login")}
+        className="border-[#5BC0BE]/30 text-[#3A506B] dark:text-[#5BC0BE] hover:bg-[#5BC0BE]/10 hover:border-[#5BC0BE] transition-all duration-300"
+      >
+        Login
+      </Button>
+      <Button
+        onClick={() => navigate("/login")}
+        className="bg-gradient-to-r from-[#5BC0BE] to-[#3A506B] hover:from-[#3A506B] hover:to-[#1C2541] text-white border-0 transition-all duration-300 hover:shadow-lg"
+      >
+        Signup
+      </Button>
+    </>
+  )}
+</nav>
+         
       </SheetContent>
     </Sheet>
   );

@@ -26,7 +26,7 @@ import { GoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
 import { useDispatch } from "react-redux";
 import { userLoggedIn } from "../features/authSlice.js";
-import { useNavigate} from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -92,14 +92,12 @@ const Login = () => {
       const data = await response.json();
 
       if (response.ok) {
-         dispatch(userLoggedIn({ user: data.user }));
+        dispatch(userLoggedIn({ user: data.user }));
         toast.success(data.message || "Google login successful");
-       navigate("/");
+        navigate("/");
       } else {
         toast.error(data.message || "Google login failed");
       }
-      
-  
     } catch (error) {
       console.error("Google login error:", error);
       toast.error("Something went wrong with Google login");
@@ -111,11 +109,8 @@ const Login = () => {
   };
 
   const handleGithubLogin = () => {
-    const githubClientId =
-      import.meta.env.VITE_GITHUB_CLIENT_ID ;
-    const redirectUri =
-      import.meta.env.VITE_GITHUB_REDIRECT_URI ;
-      
+    const githubClientId = import.meta.env.VITE_GITHUB_CLIENT_ID;
+    const redirectUri = import.meta.env.VITE_GITHUB_REDIRECT_URI;
 
     window.location.assign(
       `https://github.com/login/oauth/authorize?client_id=${githubClientId}&redirect_uri=${encodeURIComponent(
@@ -130,6 +125,7 @@ const Login = () => {
     }
     if (loginIsSuccess && loginData) {
       toast.success(loginData.message || "Login successful.");
+      navigate("/");
     }
     if (registerError) {
       toast.error(registerError?.data?.message || "Signup failed.");
@@ -151,20 +147,39 @@ const Login = () => {
     <div className="flex items-center justify-center w-full mt-20 bg-white dark:bg-[#0b132b] transition-colors duration-300 min-h-screen">
       <Tabs defaultValue="login" className="w-[400px]">
         <TabsList className="grid w-full grid-cols-2 bg-[#5bc0be]/10 dark:bg-[#1c2541] border border-[#5bc0be]/20 dark:border-[#5bc0be]/30">
-          <TabsTrigger value="signup" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-[#5bc0be] data-[state=active]:to-[#3a506b] data-[state=active]:text-white text-[#1c2541] dark:text-[#5bc0be]">Signup</TabsTrigger>
-          <TabsTrigger value="login" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-[#5bc0be] data-[state=active]:to-[#3a506b] data-[state=active]:text-white text-[#1c2541] dark:text-[#5bc0be]">Login</TabsTrigger>
+          <TabsTrigger
+            value="signup"
+            className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-[#5bc0be] data-[state=active]:to-[#3a506b] data-[state=active]:text-white text-[#1c2541] dark:text-[#5bc0be]"
+          >
+            Signup
+          </TabsTrigger>
+          <TabsTrigger
+            value="login"
+            className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-[#5bc0be] data-[state=active]:to-[#3a506b] data-[state=active]:text-white text-[#1c2541] dark:text-[#5bc0be]"
+          >
+            Login
+          </TabsTrigger>
         </TabsList>
 
         {/* Signup Tab */}
         <TabsContent value="signup">
           <Card className="bg-white dark:bg-[#1c2541] border border-[#5bc0be]/20 dark:border-[#5bc0be]/30 shadow-lg">
             <CardHeader>
-              <CardTitle className="text-[#1c2541] dark:text-white">Signup</CardTitle>
-              <CardDescription className="text-[#3a506b] dark:text-[#5bc0be]/80">Create a new account.</CardDescription>
+              <CardTitle className="text-[#1c2541] dark:text-white">
+                Signup
+              </CardTitle>
+              <CardDescription className="text-[#3a506b] dark:text-[#5bc0be]/80">
+                Create a new account.
+              </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-1">
-                <Label htmlFor="name" className="text-[#1c2541] dark:text-[#5bc0be]">Name</Label>
+                <Label
+                  htmlFor="name"
+                  className="text-[#1c2541] dark:text-[#5bc0be]"
+                >
+                  Name
+                </Label>
                 <Input
                   name="name"
                   value={signupInput.name}
@@ -176,7 +191,12 @@ const Login = () => {
                 />
               </div>
               <div className="space-y-1">
-                <Label htmlFor="email" className="text-[#1c2541] dark:text-[#5bc0be]">Email</Label>
+                <Label
+                  htmlFor="email"
+                  className="text-[#1c2541] dark:text-[#5bc0be]"
+                >
+                  Email
+                </Label>
                 <Input
                   name="email"
                   value={signupInput.email}
@@ -188,7 +208,12 @@ const Login = () => {
                 />
               </div>
               <div className="space-y-1">
-                <Label htmlFor="password" className="text-[#1c2541] dark:text-[#5bc0be]">Password</Label>
+                <Label
+                  htmlFor="password"
+                  className="text-[#1c2541] dark:text-[#5bc0be]"
+                >
+                  Password
+                </Label>
                 <Input
                   name="password"
                   value={signupInput.password}
@@ -199,14 +224,31 @@ const Login = () => {
                   required
                 />
               </div>
+              <div className="space-y-1">
+                <Label
+                  htmlFor="role"
+                  className="text-[#1c2541] dark:text-[#5bc0be]"
+                >
+                  Signup as
+                </Label>
+                <select
+                  name="role"
+                  value={signupInput.role}
+                  onChange={(e) => changeInputHandler(e, "signup")}
+                  className="w-full border rounded-md px-3 py-2 border-[#5bc0be]/30 dark:border-[#5bc0be]/50 bg-white dark:bg-[#0b132b] text-[#0b132b] dark:text-white"
+                >
+                  <option value="student">Student</option>
+                  <option value="instructor">Instructor</option>
+                </select>
+              </div>
 
               <div className="relative flex items-center justify-center">
                 <div className="absolute inset-0 flex items-center">
                   <span className="w-full border-t border-[#5bc0be]/30 dark:border-[#5bc0be]/50" />
                 </div>
-                <span className="relative z-10 bg-white dark:bg-[#1c2541] px-2 text-sm text-[#3a506b] dark:text-[#5bc0be]/80">
-                  Or continue with
-                </span>
+                <span className="relative md:absolute z-10 bg-white dark:bg-[#1c2541] px-2 text-sm text-[#3a506b] dark:text-[#5bc0be]/80">
+  Or continue with
+</span>
               </div>
 
               <div className="flex flex-col gap-4">
@@ -252,12 +294,21 @@ const Login = () => {
         <TabsContent value="login">
           <Card className="bg-white dark:bg-[#1c2541] border border-[#5bc0be]/20 dark:border-[#5bc0be]/30 shadow-lg">
             <CardHeader>
-              <CardTitle className="text-[#1c2541] dark:text-white">Login</CardTitle>
-              <CardDescription className="text-[#3a506b] dark:text-[#5bc0be]/80">Login to your account.</CardDescription>
+              <CardTitle className="text-[#1c2541] dark:text-white">
+                Login
+              </CardTitle>
+              <CardDescription className="text-[#3a506b] dark:text-[#5bc0be]/80">
+                Login to your account.
+              </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-1">
-                <Label htmlFor="email" className="text-[#1c2541] dark:text-[#5bc0be]">Email</Label>
+                <Label
+                  htmlFor="email"
+                  className="text-[#1c2541] dark:text-[#5bc0be]"
+                >
+                  Email
+                </Label>
                 <Input
                   name="email"
                   value={loginInput.email}
@@ -269,7 +320,12 @@ const Login = () => {
                 />
               </div>
               <div className="space-y-1">
-                <Label htmlFor="password" className="text-[#1c2541] dark:text-[#5bc0be]">Password</Label>
+                <Label
+                  htmlFor="password"
+                  className="text-[#1c2541] dark:text-[#5bc0be]"
+                >
+                  Password
+                </Label>
                 <Input
                   name="password"
                   value={loginInput.password}
@@ -285,7 +341,7 @@ const Login = () => {
                 <div className="absolute inset-0 flex items-center">
                   <span className="w-full border-t border-[#5bc0be]/30 dark:border-[#5bc0be]/50" />
                 </div>
-                <span className="relative z-10 bg-white dark:bg-[#1c2541] px-2 text-sm text-[#3a506b] dark:text-[#5bc0be]/80">
+                <span className="relative bg-white dark:bg-[#1c2541] px-2 text-sm text-[#3a506b] dark:text-[#5bc0be]/80">
                   Or continue with
                 </span>
               </div>

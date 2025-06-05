@@ -3,7 +3,7 @@ import React from "react";
 
 const Dashboard = () => {
   return (
-    <div className=" min-h-screen bg-[#ffffff] dark:bg-[#0B132B] transition-colors duration-300">
+    <div className=" min-h-screen bg-[#ffffff] dark:bg-[#151515] transition-colors duration-300">
       <div className=" mt-10 grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 p-6">
         {/* Card #1: Teal → Steel gradient */}
         <Card className="

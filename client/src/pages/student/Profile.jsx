@@ -13,6 +13,7 @@ import { toast } from 'sonner';
 
 const Profile = () => {
     const [name, setName] = useState("");
+    const [role, setRole] = useState("student");
     const [profilePhoto, setProfilePhoto] = useState("");
     const { data, isLoading ,refetch} = useLoadUserQuery();
     const [updateUser, { data: updateUserData, isLoading: updateUserIsLoading,isError, error ,isSuccess}] = useUpdateUserMutation();
@@ -23,6 +24,8 @@ const Profile = () => {
         }
         if (isSuccess) {
             refetch();
+            setName(name);
+            setRole(role);
             toast.success(updateUserData?.message || "Profile updated successfully");
         }
         
@@ -40,13 +43,13 @@ const Profile = () => {
    //  console.log(user);
      
     const updateUserHandler = async () => {
-        // console.log(name,profilePhoto);
-        const formData = new FormData();
-        formData.append("name", name);
-        formData.append("profilePhoto", profilePhoto);
-        await updateUser(formData);
+  const formData = new FormData();
+  formData.append("name", name);
+  formData.append("profilePhoto", profilePhoto);
+  formData.append("role", role); 
+  await updateUser(formData);
+};
 
-    };
     
     return (
         <div className='max-w-4xl mx-auto px-4 my-24'><h1 className='font-bold text-2xl text-center md:text-left'>
@@ -55,7 +58,7 @@ const Profile = () => {
             <div className='flex flex-col md:flex-row items-center md:items-start gap-8 my-5 '>
                 <div className="flex flex-col items-center">
                     <Avatar className='h-24 w-24 md:h-32 md:w-32 mb-4'>
-                        <AvatarImage src={user?.photoUrl || "https://github.com/shadcn.png"} alt="@shadcn" />
+                        <AvatarImage src={user?.photoUrl || "https://cdn.vectorstock.com/i/500p/82/55/anonymous-user-icon-circle-shape-vector-18958255.jpg"} alt="USER" />
                         <AvatarFallback>CN</AvatarFallback>
                     </Avatar>
                 </div>
@@ -113,6 +116,17 @@ const Profile = () => {
                                         Profile Picture
                                     </Label>
                                     <Input onChange={onChangeHandler} type="file" accept="image/*" className="col-span-3" />
+
+                                </div>
+                                <div className="grid grid-cols-4 items-center gap-4">
+<select
+  value={role}
+  onChange={(e) => setRole(e.target.value)}
+  className="col-span-3"
+>
+  <option value="student">Student</option>
+  <option value="instructor">Instructor</option>
+</select>
 
                                 </div>
                             </div>
