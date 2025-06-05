@@ -1,12 +1,16 @@
 import { Badge } from "../../../components/ui/badge";
 import { Button } from "../../../components/ui/button";
 import { Card, CardContent, CardTitle } from "../../../components/ui/card";
+import { Badge } from "../../../components/ui/badge";
+
+import { Button } from "../../../components/ui/button";
+import { Card, CardContent, CardTitle } from "../../../components/ui/card";
 import {
   useCompleteCourseMutation,
   useGetCourseProgressQuery,
   useInCompleteCourseMutation,
   useUpdateLectureProgressMutation,
-} from "@/features/api/courseProgressApi";
+} from "../../features/api/courseProgressApi";
 import { CheckCircle, CheckCircle2, CirclePlay } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";

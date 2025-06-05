@@ -1,4 +1,4 @@
-import { Menu, School } from "lucide-react";
+import { Menu, Squirrel } from "lucide-react";
 import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
@@ -52,12 +52,8 @@ const Navbar = () => {
       {/*Desktop*/}
       <div className="max-w-7xl mx-auto hidden md:flex justify-between items-center gap-10 h-full">
         <div className="flex items-center gap-2">
-          <School size={"30"} className="text-[#5BC0BE]" />
-          <Link to="/" >
-            <h1 className="hidden md:block font-extrabold text-2xl bg-[1c2541] bg-clip-text ">
-              CodeVerse
-            </h1>
-          </Link>
+          <Squirrel size={"45"} />
+          <Link to="/" ><h1 className="hidden md:block font-extrabold text-2xl">CodeVerse</h1></Link>
         </div>
         {/*User Icon and Dark Mode Icon */}
         <div className="flex items-center gap-8">
@@ -96,9 +92,7 @@ const Navbar = () => {
                 {user?.role === "instructor" && (
                   <>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem className="hover:bg-[#5BC0BE]/10 focus:bg-[#5BC0BE]/10 text-[#0B132B] dark:text-[#ffffff]">
-                      Dashboard
-                    </DropdownMenuItem>
+                    <DropdownMenuItem><Link to="/admin/dashboard">Dashboard</Link></DropdownMenuItem>
                   </>
                 )}
               </DropdownMenuContent>
