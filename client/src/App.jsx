@@ -24,6 +24,7 @@ import CourseProgress from "./pages/student/CourseProgress";
 import { useDispatch } from "react-redux";
 import { userLoggedIn } from "./features/authSlice";
 import SearchPage from "./pages/student/SearchPage";
+import { ThemeProvider } from "../components/ThemeProvider";
 const appRouter = createBrowserRouter([
   {
     path: "/",
@@ -154,7 +155,10 @@ function App() {
   return (
     <GoogleOAuthProvider clientId={googleClientId}>
       <main>
+        <ThemeProvider>
+          
         <RouterProvider router={appRouter} />
+        </ThemeProvider>
       </main>
     </GoogleOAuthProvider>
   );

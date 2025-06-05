@@ -45,9 +45,11 @@ const Navbar = () => {
   const logoutHandler = async () => {
     await logoutUser();
   };
+   const role = "instructor";
   console.log(user);
 
   return (
+
     <div className="h-16 bg-[#ffffff] dark:bg-[#0B132B] border-b border-[#5BC0BE]/20 dark:border-[#5BC0BE]/30 fixed top-0 left-0 right-0 duration-300 z-10 shadow-lg">
       {/*Desktop*/}
       <div className="max-w-7xl mx-auto hidden md:flex justify-between items-center gap-10 h-full">
@@ -89,7 +91,7 @@ const Navbar = () => {
                     Log out
                   </DropdownMenuItem>
                 </DropdownMenuGroup>
-                {user?.role === "instructor" && (
+                {role === "instructor" && (
                   <>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem><Link to="/admin/dashboard">Dashboard</Link></DropdownMenuItem>
@@ -119,9 +121,10 @@ const Navbar = () => {
       </div>
       {/*Mobile */}
       <div className="flex md:hidden items-center justify-between px-4 h-full">
-        <h1 className="font-extrabold text-2xl bg-gradient-to-r from-[#5BC0BE] to-[#3A506B] bg-clip-text text-transparent">
-          CodeVerse
-        </h1>
+        <div className="flex items-center gap-2">
+          <Squirrel size={"45"} />
+          <Link to="/" ><h1 className="hidden md:block font-extrabold text-2xl">CodeVerse</h1></Link>
+        </div>
         <MobileNavbar />
       </div>
     </div>
@@ -131,7 +134,7 @@ const Navbar = () => {
 export default Navbar;
 
 const MobileNavbar = () => {
-  const role = "instructor";
+   const role = "instructor";
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -146,7 +149,7 @@ const MobileNavbar = () => {
       <SheetContent className="flex flex-col px-4 py-4 space-y-2 bg-[#ffffff] dark:bg-[#0B132B] border-l border-[#5BC0BE]/20 dark:border-[#5BC0BE]/30">
         {/* Header */}
         <SheetHeader className="flex flex-row items-center justify-between">
-          <SheetTitle className="text-xl font-semibold bg-gradient-to-r from-[#5BC0BE] to-[#3A506B] bg-clip-text text-transparent">
+          <SheetTitle className="text-2xl font-bold">
             CodeVerse
           </SheetTitle>
           <DarkMode />
@@ -170,7 +173,7 @@ const MobileNavbar = () => {
           </Button>
           <Button 
             variant="ghost" 
-            className="justify-start hover:bg-red-50 dark:hover:bg-red-900/20 text-red-600 dark:text-red-400 transition-all duration-300"
+            className="justify-start hover:bg-red-50 dark:hover:bg-red-700/20 text-red-600 dark:text-red-400 transition-all duration-300"
           >
             Log out
           </Button>
@@ -181,8 +184,8 @@ const MobileNavbar = () => {
           <>
             <Separator />
             <SheetClose asChild>
-              <Button className="w-full mt-2 bg-gradient-to-r from-[#5BC0BE] to-[#3A506B] hover:from-[#3A506B] hover:to-[#1C2541] text-white border-0 transition-all duration-300 hover:shadow-lg">
-                Dashboard
+              <Button className="w-full mt-2 bg-[#3A506B] hover:bg-[#1C2541] text-white border-0 transition-all duration-300 hover:shadow-lg">
+                <Link to="/admin/dashboard">Dashboard</Link>
               </Button>
             </SheetClose>
           </>
