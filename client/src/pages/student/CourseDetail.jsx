@@ -87,7 +87,7 @@ const CourseDetail = () => {
               <Separator className='my-2'/>
               <h1 className="text-lg  md:text-xl font-semibold" >course price</h1>
             </CardContent>
-            {/* <CardFooter className='flex justify-center p-4'>
+            <CardFooter className='flex justify-center p-4'>
               {
                 purchased ? (
                   <Button onClick={handleContinueCourse} className='w-full' >
@@ -96,7 +96,7 @@ const CourseDetail = () => {
                 ) : (  <BuyCourseButton courseId={courseId}/>)
               }
             
-            </CardFooter> */}
+            </CardFooter>
           </Card>
 
         </div>
