@@ -72,11 +72,12 @@ const Login = () => {
   };
 
   const onLoginSuccess = async (res) => {
+    const googleUrl= import.meta.env.VITE_GOOGLE_REDIRECT_URI;
     const decoded = jwtDecode(res.credential);
 
     try {
       const response = await fetch(
-        "http://localhost:8000/api/v1/user/google-login",
+       googleUrl ,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

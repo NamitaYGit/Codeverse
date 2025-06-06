@@ -46,7 +46,7 @@ const CourseProgress = () => {
 
   const { courseDetails, progress, completed } = data.data;
   const { courseTitle } = courseDetails;
-console.log("CourseProgress data:", data);
+//console.log("CourseProgress data:", data);
   // Default to the first lecture if none selected
   const initialLecture =
     currentLecture || (courseDetails.lectures && courseDetails.lectures[0]);

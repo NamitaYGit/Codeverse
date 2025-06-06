@@ -12,8 +12,9 @@ dotenv.config({});
 connectDB();
  const app=express();
  const PORT=process.env.PORT||8000;
+ const origin = process.env.FRONTEND_URL || "http://localhost:5173";
  app.use(cors({
-    origin:"http://localhost:5173",
+    origin:origin,
     credentials:true,
     methods: ["GET", "POST", "PUT", "DELETE","PATCH"],
    allowedHeaders: ["Content-Type", "Authorization"]
@@ -27,6 +28,6 @@ app.use("/api/v1/media",mediaRoute);
  app.use("/api/v1/purchase",purchaseRoute);
 app.use("/api/v1/progress", courseProgressRoute);
  app.listen(PORT,()=>{
-    console.log(`Server is running on port ${PORT}`);
+   // console.log(`Server is running on port ${PORT}`);
 })
 

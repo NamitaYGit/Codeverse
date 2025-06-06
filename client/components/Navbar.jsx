@@ -45,7 +45,7 @@ const Navbar = () => {
   const logoutHandler = async () => {
     await logoutUser();
   };
-  console.log(user);
+ 
 
   return (
     <div className="h-16 bg-[#ffffff] dark:bg-[#0B132B] border-b border-[#5BC0BE]/20 dark:border-[#5BC0BE]/30 fixed top-0 left-0 right-0 duration-300 z-10 shadow-lg">
@@ -174,7 +174,7 @@ const MobileNavbar = () => {
   const logoutHandler = async () => {
     await logoutUser();
   };
-  console.log(user);
+ 
   return (
     <Sheet>
       <SheetTrigger asChild>

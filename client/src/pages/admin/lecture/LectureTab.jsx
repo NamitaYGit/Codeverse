@@ -21,7 +21,7 @@ import {
 import { useParams } from "react-router-dom";
 import { Loader2 } from "lucide-react";
 
-const MEDIA_API = "http://localhost:8000/api/v1/media";
+const MEDIA_API = import.meta.env.VITE_MEDIA_API;
 const LectureTab = () => {
   const [lectureTitle, setLectureTitle] = useState("");
   const [uploadVideoInfo, setUploadVideoInfo] = useState(null);
@@ -81,7 +81,7 @@ const LectureTab = () => {
     }
   };
   const editLectureHandler = async () => {
-    console.log({ lectureTitle, uploadVideoInfo, isFree, courseId, lectureId });
+  //  console.log({ lectureTitle, uploadVideoInfo, isFree, courseId, lectureId });
     await editLecture({
       lectureTitle,
       videoInfo: uploadVideoInfo,

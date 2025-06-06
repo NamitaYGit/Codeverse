@@ -9,7 +9,7 @@ const Dashboard = () => {
 const adminId = user?._id;
 
   const {data, isSuccess, isError, isLoading} = useGetPurchasedCoursesQuery();
-console.log("Dashboard data:", data);
+//console.log("Dashboard data:", data);
   if(isLoading) return <h1>Loading...</h1>
   if(isError) return <h1 className="text-red-500">Failed to get purchased courses</h1>
 
