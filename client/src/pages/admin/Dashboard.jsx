@@ -2,24 +2,32 @@ import { useGetPurchasedCoursesQuery } from "../../features/api/purchaseApi";
 import { Card, CardContent, CardHeader, CardTitle } from "../../../components/ui/card";
 import React from "react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
+import { useSelector } from "react-redux";
 
 const Dashboard = () => {
-  const {data, isSuccess, isError, isLoading} = useGetPurchasedCoursesQuery();
+  const user = useSelector((state) => state.auth.user);
+const adminId = user?._id;
 
+  const {data, isSuccess, isError, isLoading} = useGetPurchasedCoursesQuery();
+console.log("Dashboard data:", data);
   if(isLoading) return <h1>Loading...</h1>
-  if(isError) return <h1 className="text-red-500">Failed to get purchased course</h1>
+  if(isError) return <h1 className="text-red-500">Failed to get purchased courses</h1>
 
   //
-  const {purchasedCourse} = data || [];
+  const {purchasedCourse=[]} = data || {};
 
-  const courseData = purchasedCourse.map((course)=> ({
+  const adminCourses = purchasedCourse.filter(
+    (item) => item?.courseId?.creator === adminId
+  );
+
+  const courseData = adminCourses.map((course)=> ({
     name:course.courseId.courseTitle,
     price:course.courseId.coursePrice
   }))
 
-  const totalRevenue = purchasedCourse.reduce((acc,element) => acc+(element.amount || 0), 0);
+  const totalRevenue = adminCourses.reduce((acc,element) => acc+(element.amount || 0), 0);
 
-  const totalSales = purchasedCourse.length;
+  const totalSales = adminCourses.length;
   return (
     <div className=" min-h-screen bg-[#ffffff] dark:bg-[#151515] transition-colors duration-300">
       <div className=" mt-10 grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 p-6">

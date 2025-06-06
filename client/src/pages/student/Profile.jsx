@@ -34,7 +34,7 @@ const Profile = () => {
         const file = e.target.files?.[0];
         if (file) setProfilePhoto(file);
     }
-    const enrolledCourses =data?.enrolledCourses || [];
+    const enrolledCourses =data?.user?.enrolledCourses || [];
     if (isLoading) return <h1>Profile Loading...</h1>
     if (!data) return <h1>Failed to load user data</h1>;
     const { user } = data ;

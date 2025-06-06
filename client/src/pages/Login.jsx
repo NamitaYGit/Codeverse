@@ -85,6 +85,7 @@ const Login = () => {
             name: decoded.name,
             email: decoded.email,
             photoUrl: decoded.picture,
+             
           }),
         }
       );
@@ -93,6 +94,8 @@ const Login = () => {
 
       if (response.ok) {
         dispatch(userLoggedIn({ user: data.user }));
+       
+
         toast.success(data.message || "Google login successful");
         navigate("/");
       } else {

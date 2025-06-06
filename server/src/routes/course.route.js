@@ -31,7 +31,7 @@ router.route("/:courseId/lecture").post(isAuthenticated, createLecture);
 router.route("/:courseId/lecture").get(isAuthenticated, getCourseLecture);
 router
   .route("/:courseId/lecture/:lectureId")
-  .post(isAuthenticated, editLecture);
+  .put(isAuthenticated, editLecture);
 router.route("/:courseId").delete(isAuthenticated, removeCourse);
 router.route("/lecture/:lectureId").delete(isAuthenticated, removeLecture);
 router.route("/lecture/:lectureId").get(isAuthenticated, getLectureById);

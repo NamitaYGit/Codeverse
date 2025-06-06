@@ -76,16 +76,7 @@ export const login = async (req, res) => {
       });
     }
     generateToken(res, user, `Welcome back ${user.name}`);
-    res.status(200).json({
-      success: true,
-      message: `Welcome back ${user.name}`,
-      user: {
-        name: user.name,
-        email: user.email,
-        role: user.role,
-        photoUrl: user.photoUrl,
-      },
-    });
+   
   } catch (error) {
     console.error("Error logging in user:", error);
     return res.status(500).json({
@@ -114,19 +105,12 @@ export const googleLogin = async (req, res) => {
         email,
         provider: "google",
         photoUrl,
+         
       });
     }
 generateToken(res, user, `Welcome back ${user.name} (signed in with Google)`);
-    res.status(200).json({
-      success: true,
-      message: `Welcome back ${user.name} (signed in with Google)`,
-      user: {
-        name: user.name,
-        email: user.email,
-        role: user.role,
-        photoUrl: user.photoUrl,
-      },
-});
+   
+
 
   } catch (error) {
     console.error("Google login error:", error);
@@ -213,16 +197,7 @@ export const githubLogin = async (req, res) => {
       }
     }
 generateToken(res, user, `Welcome back ${user.name} (signed in with Github)`);
-    res.status(200).json({
-      success: true,
-      message: `Welcome back ${user.name} (signed in with Github)`,
-      user: {
-        name: user.name,
-        email: user.email,
-        role: user.role,
-        photoUrl: user.photoUrl,
-      },
-});
+   
 
   } catch (error) {
     return res.status(500).json({

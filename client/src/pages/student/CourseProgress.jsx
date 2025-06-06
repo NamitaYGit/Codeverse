@@ -16,6 +16,7 @@ const CourseProgress = () => {
   const params = useParams();
   const courseId = params.courseId;
   const { data, isLoading, isError, refetch } = useGetCourseProgressQuery(courseId);
+//console.log("📦 API Response:", data);
 
   const [updateLectureProgress] = useUpdateLectureProgressMutation();
   const [

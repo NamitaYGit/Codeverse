@@ -251,6 +251,12 @@ export const getCourseLecture= async (req,res)=>{
 export const editLecture=async (req,res)=>{
     try{
         const {lectureTitle,videoInfo,isPreviewFree}=req.body;
+        console.log("Incoming data:", {
+  lectureTitle,
+  videoInfo,
+  isPreviewFree
+});
+
         const {courseId,lectureId}=req.params;
         const lecture= await Lecture.findById(lectureId);
 

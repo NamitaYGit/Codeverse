@@ -30,7 +30,8 @@ export const authApi = createApi({
                 } catch (error) {
                     console.log(error);
                 }
-            }
+            },
+            invalidatesTags: ["User"]
         }),
         logoutUser:builder.mutation({
             query: () => ({
@@ -53,6 +54,7 @@ export const authApi = createApi({
                 url: "profile",
                 method: "GET"
             }),
+             providesTags: ["User"],
             async onQueryStarted(_, { queryFulfilled, dispatch }) {
                 try {
                     const result = await queryFulfilled;
@@ -70,7 +72,8 @@ export const authApi = createApi({
                 body:formData,
                 credentials:"include"
 
-            })
+            }),
+            invalidatesTags: ["User"]
         })
     })
 });

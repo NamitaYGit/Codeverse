@@ -1,10 +1,11 @@
 import "./App.css";
+import { useNavigate } from "react-router-dom";
 import Login from "./pages/Login";
 import Navbar from "../components/Navbar";
 import HeroSection from "./pages/student/HeroSection";
 import { createBrowserRouter } from "react-router-dom";
 import MainLayout from "./layout/MainLayout";
-import { RouterProvider } from "react-router";
+import { RouterProvider } from "react-router-dom";
 import Courses from "./pages/student/Courses";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { useEffect } from "react";
@@ -86,7 +87,23 @@ const appRouter = createBrowserRouter([
             <CourseDetail />
           </ProtectedRoute>
         ),
-      },
+      },{
+  path: "my-learning/course-detail/:courseId",
+  element: (
+    <ProtectedRoute>
+      <CourseDetail />
+    </ProtectedRoute>
+  ),
+}
+,{
+  path: "profile/course-detail/:courseId",
+  element: (
+    <ProtectedRoute>
+      <CourseDetail />
+    </ProtectedRoute>
+  ),
+},
+,
       {
         path: "course-progress/:courseId",
         element: (
@@ -138,6 +155,7 @@ const appRouter = createBrowserRouter([
 
 function GitHubCallback() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   useEffect(() => {
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
@@ -149,8 +167,11 @@ function GitHubCallback() {
   }, []);
 
   const handleGitHubCallback = async (code) => {
+    const backendUrl = import.meta.env.VITE_USER_API;
+
+
     try {
-      const response = await fetch('http://localhost:8000/api/v1/user/github-login', {
+      const response = await fetch(`${backendUrl}github-login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
@@ -161,7 +182,7 @@ function GitHubCallback() {
       if (response.ok) {
           dispatch(userLoggedIn({ user: data.user }));
         toast.success(data.message || "Giithub login successful");
-        window.location.href = '/';
+        navigate("/");
       } else {
         // console.error('GitHub login failed:', data.message);
         toast.error(data.message || "GitHub login failed");

@@ -84,7 +84,7 @@ export const courseApi = createApi({
     editLecture:builder.mutation({
       query:({lectureTitle,videoInfo,isPreviewFree,courseId,lectureId})=>({
         url:`/${courseId}/lecture/${lectureId}`,
-        method:"POST",
+        method:"PUT",
         body:{lectureTitle,videoInfo,isPreviewFree}
       })
     }),
