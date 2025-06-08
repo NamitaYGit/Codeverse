@@ -1,4 +1,4 @@
-import { Label } from "@radix-ui/react-dropdown-menu";
+import { Label } from "../../../../components/ui/label";
 import { Button } from "../../../../components/ui/button";
 import {
   Card,
@@ -81,7 +81,7 @@ const CourseTab = () => {
   const selectThumbnail = (e) => {
     const file = e.target.files?.[0];
     if (file) {
-      setInput({ ...input, courseThumbnnail: file });
+      setInput({ ...input, courseThumbnail: file });
       const fileReader = new FileReader();
       fileReader.onloadend = () => setPreviewThumbnail(fileReader.result);
       fileReader.readAsDataURL(file);
@@ -141,14 +141,14 @@ const CourseTab = () => {
   );
 
   return (
-    <div className="min-h-screen bg-[#ffffff] dark:bg-[#0B132B] transition-colors duration-300 p-6">
+    <div className="min-h-screen bg-[#ffffff] mt-15 dark:bg-[#0B132B] transition-colors duration-300 p-6">
       <Card className="bg-[#ffffff] dark:bg-[#1C2541] border border-[#5BC0BE]/20 dark:border-[#5BC0BE]/30 shadow-lg">
-        <CardHeader className="flex flex-row justify-between bg-gradient-to-r from-[#5BC0BE]/10 to-[#3A506B]/10 rounded-t-lg">
+        <CardHeader aria-describedby="course-description" className="flex flex-row justify-between bg-gradient-to-r from-[#5BC0BE]/10 to-[#3A506B]/10 rounded-t-lg">
           <div>
             <CardTitle className="text-[#0B132B] dark:text-[#ffffff] text-xl">
               Basic Course Information
             </CardTitle>
-            <CardDescription className="text-[#3A506B] dark:text-[#5BC0BE]/80">
+            <CardDescription id="course-description" className="text-[#3A506B] dark:text-[#5BC0BE]/80">
               Make changes to your course. Click save when you're done.
             </CardDescription>
           </div>
@@ -213,7 +213,7 @@ const CourseTab = () => {
             <div className="flex items-center gap-6 flex-wrap">
               <div className="space-y-2 min-w-[200px]">
                 <Label className="text-[#1C2541] dark:text-[#5BC0BE] font-medium">Category</Label>
-                <Select onValueChange={selectCategory}>
+                <Select onValueChange={selectCategory} value={input.category}>
                   <SelectTrigger className="border-[#5BC0BE]/30 focus:border-[#5BC0BE] focus:ring-[#5BC0BE]/20 bg-[#ffffff] dark:bg-[#0B132B] text-[#0B132B] dark:text-[#ffffff] transition-all duration-300">
                     <SelectValue placeholder="Select a category" />
                   </SelectTrigger>
@@ -239,7 +239,7 @@ const CourseTab = () => {
               </div>
               <div className="space-y-2 min-w-[200px]">
                 <Label className="text-[#1C2541] dark:text-[#5BC0BE] font-medium">Course Level</Label>
-                <Select onValueChange={selectCourseLevel}>
+                <Select onValueChange={selectCourseLevel} value={input.courseLevel}>
                   <SelectTrigger className="border-[#5BC0BE]/30 focus:border-[#5BC0BE] focus:ring-[#5BC0BE]/20 bg-[#ffffff] dark:bg-[#0B132B] text-[#0B132B] dark:text-[#ffffff] transition-all duration-300">
                     <SelectValue placeholder="Select a course level" />
                   </SelectTrigger>

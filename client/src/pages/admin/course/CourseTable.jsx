@@ -12,7 +12,7 @@ const CourseTable = () => {
   if(isLoading) return <h1>Loading...</h1>
   // console.log("data->",data);
   return (
-    <div className="overflow-x-auto bg-white dark:bg-[#1e1e1e] p-6 rounded-md shadow text-black dark:text-white">
+    <div className="mt-15 overflow-x-auto bg-white dark:bg-[#1e1e1e] p-6 rounded-md shadow text-black dark:text-white">
       <Button onClick={()=>navigate(`create`)}>Create a new course</Button>
       <Table className="mt-5 min-w-full">
       <TableCaption>A list of your recent courses.</TableCaption>

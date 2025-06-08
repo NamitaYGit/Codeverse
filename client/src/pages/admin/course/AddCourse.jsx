@@ -32,7 +32,7 @@ const AddCourse = () => {
   }, [isSuccess, error]);
   
   return (
-    <div className="flex-1 mx-10 min-h-screen bg-[#ffffff] dark:bg-[#0B132B] transition-colors duration-300">
+    <div className="flex-1 mx-10 mt-15 min-h-screen bg-[#ffffff] dark:bg-[#0B132B] transition-colors duration-300">
       <div className="mb-8 p-6 bg-gradient-to-r from-[#5BC0BE]/10 to-[#3A506B]/10 rounded-lg border border-[#5BC0BE]/20 dark:border-[#5BC0BE]/30">
         <h1 className="font-bold text-2xl text-[#0B132B] dark:text-[#ffffff] mb-3">
           Let's add a course

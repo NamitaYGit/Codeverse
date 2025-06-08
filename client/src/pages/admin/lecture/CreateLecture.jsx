@@ -42,7 +42,7 @@ const CreateLecture = () => {
   }, [isSuccess, error]);
 
   return (
-    <div className="flex-1 mx-10">
+    <div className="flex-1 mx-10 mt-15">
       <div className="mb-4">
         <h1 className="font-bold text-xl">
           Lets add lectures, add some basic lectures details for your new
