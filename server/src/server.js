@@ -12,13 +12,24 @@ dotenv.config({});
 connectDB();
  const app=express();
  const PORT=process.env.PORT||8000;
- const origin = process.env.FRONTEND_URL || "https://codeverse-six.vercel.app";
- app.use(cors({
-    origin:origin,
-    credentials:true,
-    methods: ["GET", "POST", "PUT", "DELETE","PATCH"],
-   allowedHeaders: ["Content-Type", "Authorization"]
- }));
+const allowedOrigins = [
+  "http://localhost:5173",
+  process.env.FRONTEND_URL
+];
+
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
+  allowedHeaders: ["Content-Type", "Authorization"]
+}));
+
  app.use(express.json());
  app.use(cookieParser());
 // apis
@@ -28,6 +39,6 @@ app.use("/api/v1/media",mediaRoute);
  app.use("/api/v1/purchase",purchaseRoute);
 app.use("/api/v1/progress", courseProgressRoute);
  app.listen(PORT,()=>{
-   // console.log(`Server is running on port ${PORT}`);
+  //  console.log(`Server is running on port ${PORT}`);
 })
 
