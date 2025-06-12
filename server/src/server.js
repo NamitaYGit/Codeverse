@@ -12,7 +12,7 @@ dotenv.config({});
 connectDB();
  const app=express();
  const PORT=process.env.PORT||8000;
- const origin = process.env.FRONTEND_URL || "http://localhost:5173";
+ const origin = process.env.FRONTEND_URL || "https://codeverse-six.vercel.app";
  app.use(cors({
     origin:origin,
     credentials:true,
