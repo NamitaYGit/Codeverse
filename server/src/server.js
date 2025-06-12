@@ -33,12 +33,15 @@ app.use(cors({
  app.use(express.json());
  app.use(cookieParser());
 // apis
+app.get("/", (req, res) => {
+  res.json({ message: "Server is running ..." });
+});
 app.use("/api/v1/media",mediaRoute);
  app.use("/api/v1/user",userRoute);
  app.use("/api/v1/course",courseRoute);
  app.use("/api/v1/purchase",purchaseRoute);
 app.use("/api/v1/progress", courseProgressRoute);
  app.listen(PORT,()=>{
-  //  console.log(`Server is running on port ${PORT}`);
+   console.log(`Server is running on port ${PORT}`);
 })
 
