@@ -20,6 +20,7 @@ import {
   useUpdateUserMutation,
 } from "../../features/api/authApi";
 import { toast } from "sonner";
+import { useSelector } from "react-redux";
 
 const Profile = () => {
   const [name, setName] = useState("");
