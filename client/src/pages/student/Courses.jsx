@@ -5,7 +5,6 @@ import {useGetPublishedCourseQuery} from "../../features/api/courseApi"
 
 const Courses = () => {
   const {data,isLoading,isError}  =useGetPublishedCourseQuery();
-  console.log(data);
   if(isError)return <h1 className="text-[#1c2541] dark:text-[#5bc0be] text-center text-xl">Some error occured while fetching course. </h1>
   return (
     <div className="bg-white dark:bg-[#0b132b] transition-colors duration-300">
