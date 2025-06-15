@@ -168,8 +168,6 @@ function GitHubCallback() {
 
   const handleGitHubCallback = async (code) => {
     const backendUrl = import.meta.env.VITE_USER_API;
-
-
     try {
       const response = await fetch(`${backendUrl}github-login`, {
         method: 'POST',
