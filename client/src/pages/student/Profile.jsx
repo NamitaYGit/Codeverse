@@ -27,9 +27,10 @@ const Profile = () => {
   const [role, setRole] = useState("student");
   const [profilePhoto, setProfilePhoto] = useState("");
   const isLoggedIn = useSelector(state => state.auth.isAuthenticated);
-const { data, isLoading } = useLoadUserQuery(undefined, {
+const { data, isLoading, refetch } = useLoadUserQuery(undefined, {
   skip: !isLoggedIn
 });
+
 
   const [
     updateUser,
