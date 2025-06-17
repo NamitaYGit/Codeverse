@@ -55,7 +55,7 @@ cd ..
 cd server
 npm install
 npm run dev
-cd..
+cd ..
 stripe listen --forward-to localhost:8000/api/v1/purchase/webhook
 ```
 
