@@ -48,14 +48,23 @@ The aim is to foster **collaborative learning and creativity while rewarding con
 
 ```bash
 git clone https://github.com/NamitaYGit/Codeverse.git
+```
+## Installing Frontend Dependencies:
+```bash
 cd client
-npm installl
+npm install
 npm run dev
-cd ..
+```
+## Installing Frontend Dependencies:
+```bash
+
 cd server
 npm install
 npm run dev
-cd ..
+```
+## Stripe Sandbox 
+```bash
+
 stripe listen --forward-to localhost:8000/api/v1/purchase/webhook
 ```
 
