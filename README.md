@@ -1,6 +1,6 @@
 # CSVerse — Collaborative Knowledge Exchange Platform
 
-## 📝 Project Description
+##  Project Description
 
 CSVerse is a **collaborative knowledge exchange platform** designed for **students, clubs, professors, and lifelong learners**.  
 The platform allows users to:
@@ -11,7 +11,7 @@ The platform allows users to:
 
 The aim is to foster **collaborative learning and creativity while rewarding contributors for their expertise**.
 
-## 🔹 Features
+##  Features
 
 - **User Authentication (OAuth)** with **Google** and **Github**.
 - Collaborative content upload with **Cloudinary** for media storage.
@@ -19,7 +19,7 @@ The aim is to foster **collaborative learning and creativity while rewarding con
 - **Paid content** with payments processed through **Stripe** (sandbox).
 - **Editor with rich text (Quill)** for adding descriptions and educational notes.
 
-## ⚙ Tech Stack
+##  Tech Stack
 
 ### Frontend:
 
@@ -44,7 +44,7 @@ The aim is to foster **collaborative learning and creativity while rewarding con
 - **Stripe** for payments (currently in sandbox)
 - **Cors, Cookie-Parser, Dotenv** for additional functionality
 
-## 🔹 Installation
+##  Installation
 
 ```bash
 git clone https://github.com/NamitaYGit/Codeverse.git
@@ -55,7 +55,7 @@ cd client
 npm install
 npm run dev
 ```
-## Installing Frontend Dependencies:
+## Installing Backend Dependencies:
 ```bash
 
 cd server
